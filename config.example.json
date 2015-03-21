@@ -1,8 +1,0 @@
-{
-    "user": "",
-    "password": "",
-    "host": "http://sef.rets.interealty.com",
-    "path": "/Login.asmx/Login",
-    "userAgent": "RETS-Connector1/2",
-    "userAgentPassword": ""
-}

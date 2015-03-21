@@ -2,7 +2,7 @@ var path = require('path');
 var util = require('util');
 var debug = require('debug')('lowmango:tests');
 var assert = require("assert");
-// var nock = require('nock');
+var nock = require('nock');
 // var http = require('http');
 
 var RETS = require('../');
