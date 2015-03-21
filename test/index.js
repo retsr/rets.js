@@ -149,7 +149,7 @@ describe('RETS Instance Method Calls',function(){
 
         var timeout = setTimeout(function(){
             assert(false, 'No event fired');
-        },1000);
+        },3000);
 
         var listener = rets.addListener('login',function(err, body){
             clearTimeout(timeout);
@@ -163,7 +163,7 @@ describe('RETS Instance Method Calls',function(){
 
         var timeout = setTimeout(function(){
             assert(false, 'No event fired');
-        },1000);
+        },3000);
 
         var listener = rets.addListener('search',function(err, body){
             clearTimeout(timeout);
