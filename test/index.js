@@ -10,7 +10,23 @@ var RETS = require('../');
 var RETSError = require('../lib/error');
 
 var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
-var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'Yay');
+var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'<?xml version="1.0" encoding="utf-8"  ?>'
++"\n"+'<RETS ReplyCode="0" ReplyText="Operation Successful" >'
++"\n"+'<RETS-RESPONSE>'
++"\n"+'MemberName=John Doe'
++"\n"+'User=user,0,IDX Vendor,0000RETS   00'
++"\n"+'Broker=00,0'
++"\n"+'MetadataVersion=03.08.00024'
++"\n"+'MetadataTimestamp=2015-03-11T10:36:09'
++"\n"+'MinMetadataTimestamp=2015-03-11T10:36:09'
++"\n"+'TimeoutSeconds=1800'
++"\n"+'GetObject=/njs/GetObject'
++"\n"+'Login=/njs/Login'
++"\n"+'Logout=/njs/Logout'
++"\n"+'Search=/njs/Search'
++"\n"+'GetMetadata=/njs/GetMetadata'
++"\n"+'</RETS-RESPONSE>'
++"\n"+'</RETS>');
 
 nock.enableNetConnect();
 
@@ -132,27 +148,9 @@ describe('Known Errors', function(){
     });
 });
 
-describe('RETS Instance Method Calls',function(){
-
-    it('Login method should emit an event', function(done){
-
-        var _timeout = setTimeout(function(){
-            rets.removeAllListeners('login');
-            assert(false, 'No event fired');
-            done();
-        },1000);
-
-        rets.addListener('login',function(){
-            rets.removeAllListeners('login');
-            clearTimeout(_timeout);
-            assert(true);
-            done();
-        });
-
-        rets.login();
-    });
-
-    it('Login emits not implemented',function(done){
+describe('RETS Instance Methods',function(){
+    
+    it('Can login to a RETS server',function(done){
 
         var _timeout = setTimeout(function(){
             rets.removeAllListeners('login');
@@ -163,23 +161,27 @@ describe('RETS Instance Method Calls',function(){
         var listener = rets.addListener('login',function(err, body){
             rets.removeAllListeners('login');
             clearTimeout(_timeout);
-            assert(err.message === "Not implemented");
+            assert(err === null);
             done();
         });
 
         rets.login();
     });
 
-    it('Search emits not implemented',function(done){
+    it('Can read capabilities from the server',function(){
+        assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
+    });
+
+    it('Can search for property listings: NOT IMPLEMENTED',function(done){
 
         var timeout = setTimeout(function(){
-            rets.removeAllListeners('login');
+            rets.removeAllListeners('search');
             assert(false, 'No event fired');
             done();
         },1000);
 
         var listener = rets.addListener('search',function(err, body){
-            rets.removeAllListeners('login');
+            rets.removeAllListeners('search');
             clearTimeout(timeout);
             assert(err.message === "Not implemented");
             done();
@@ -198,14 +200,14 @@ if(fs.existsSync('./test/servers.json')){
 
         servers.forEach(function(item, index){
 
-            it('Can login to my server at ' + item.url, function(done){
+            var rets = new RETS({
+                url: item.url,
+                userAgent: item.userAgent,
+                userAgentPassword: item.userAgentPassword,
+                version: item.version
+            });
 
-                var rets = new RETS({
-                    url: item.url,
-                    userAgent: item.userAgent,
-                    userAgentPassword: item.userAgentPassword,
-                    version: item.version
-                });
+            it('Can login to my RETS server: ' + rets.session.url.host, function(done){
 
                 var _timeout = setTimeout(function(){
                     rets.removeAllListeners('login');
@@ -216,12 +218,18 @@ if(fs.existsSync('./test/servers.json')){
                 rets.addListener('login',function(err){
                     rets.removeAllListeners('login');
                     clearTimeout(_timeout);
-                    assert(true);
+                    assert(err === null);
                     done();
                 });
 
                 rets.login();
             });
+
+            it('Can read capabilities from the server',function(){
+                assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
+            });
+
+
         });
 
     });
