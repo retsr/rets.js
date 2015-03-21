@@ -12,13 +12,13 @@ Simplified RETS Node Client
 ## Motivation
 
 
-
-## Usage
+## Install
 
     npm install --save rets.js
 
 ## Contributing
 
+Feel free to fork and send Pull Requests.
 
 ## Testing
 
