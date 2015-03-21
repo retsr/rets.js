@@ -1,6 +1,6 @@
 {
   "name": "rets.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Simplified RETS Node Client",
   "main": "index.js",
   "dependencies": {
@@ -29,6 +29,9 @@
     "url": "https://github.com/retsr/rets.js.git"
   },
   "author": "",
+  "contributors": [
+    "Luis Gomez <luis@luis.io> (http://luis.io/)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/retsr/rets.js/issues"
