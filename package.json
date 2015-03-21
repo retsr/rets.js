@@ -1,8 +1,15 @@
 {
   "name": "rets.js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simplified RETS Node Client",
-  "keywords": ["rets", "mls", "real estate", "javascript", "node", "reso"],
+  "keywords": [
+    "rets",
+    "mls",
+    "real estate",
+    "javascript",
+    "node",
+    "reso"
+  ],
   "main": "index.js",
   "dependencies": {
     "MD5": "^1.2.1",
@@ -34,7 +41,7 @@
     "url": "https://github.com/retsr/rets.js/issues"
   },
   "homepage": "http://retsr.io/rets.js/",
-  "engines" : {
-    "node" : ">=0.12"
+  "engines": {
+    "node": ">=0.12"
   }
 }
