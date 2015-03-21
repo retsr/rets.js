@@ -34,4 +34,7 @@
     "url": "https://github.com/retsr/rets.js/issues"
   },
   "homepage": "http://retsr.io/rets.js/",
+  "engines" : {
+    "node" : ">=0.12"
+  }
 }
