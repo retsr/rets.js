@@ -1,7 +1,15 @@
 {
   "name": "rets.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simplified RETS Node Client",
+  "keywords": [
+    "rets",
+    "mls",
+    "real estate",
+    "javascript",
+    "node",
+    "reso"
+  ],
   "main": "index.js",
   "dependencies": {
     "MD5": "^1.2.1",
@@ -28,13 +36,12 @@
     "type": "git",
     "url": "https://github.com/retsr/rets.js.git"
   },
-  "author": "",
-  "contributors": [
-    "Luis Gomez <luis@luis.io> (http://luis.io/)"
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/retsr/rets.js/issues"
   },
-  "homepage": "https://github.com/retsr/rets.js"
+  "homepage": "http://retsr.io/rets.js/",
+  "engines": {
+    "node": ">=0.12"
+  }
 }
