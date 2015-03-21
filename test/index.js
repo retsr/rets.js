@@ -8,6 +8,8 @@ var nock = require('nock');
 var RETS = require('../');
 var RETSError = require('../lib/error');
 
+var RETSLogin = nock('http://sef.rets.interrealty.com').get('/Login.asmx/Login').reply(200,'Yay');
+
 
 describe('RETS Class', function(){
 
@@ -32,9 +34,21 @@ describe('RETS Class', function(){
     });
 });
 
-var rets = new RETS('http://user:pass@sef.rets.interealty.com/Login.asmx/Login');
+var rets;
 
 describe('RETS Instance (rets)', function(){
+    it('Constructor accepts a string', function(){
+        rets = new RETS('http://user:pass@sef.rets.interealty.com/Login.asmx/Login');
+        assert(rets instanceof RETS);
+    });
+    it('Constructor accepts an object', function(){
+        rets = new RETS({
+            url: 'http://user:pass@sef.rets.interealty.com/Login.asmx/Login',
+            userAgent: 'RETS-Connector1/2',
+            userAgentPassword: ''
+        });
+        assert(rets instanceof RETS);
+    });
     it('Is an instance of RETS.', function(){
         assert(rets instanceof RETS);
     });
@@ -46,6 +60,9 @@ describe('RETS Instance (rets)', function(){
     });
     it('Has a search method.', function(){
         assert.equal(typeof rets.search, 'function');
+    });
+    it('Is an event emitter', function(){
+        assert.equal(typeof rets.addListener, 'function');
     });
 });
 
@@ -110,6 +127,52 @@ describe('Known Errors', function(){
     it('Error message should be "' + codes[code][0] + '".', function(){
         assert(err.message === codes[code][0]);
     });
+});
+
+describe('RETS Instance Method Calls',function(){
+
+    it('Login method should emit an event', function(){
+
+        var timeout = setTimeout(function(){
+            assert(false, 'No event fired');
+        },1000);
+
+        var listener = rets.addListener('login',function(err, body){
+            clearTimeout(timeout);
+            assert(true);
+        });
+
+        rets.login();
+    });
+
+    it('Login emits not implemented',function(){
+
+        var timeout = setTimeout(function(){
+            assert(false, 'No event fired');
+        },1000);
+
+        var listener = rets.addListener('login',function(err, body){
+            clearTimeout(timeout);
+            assert(err.message === "Not implemented");
+        });
+
+        rets.login();
+    });
+
+    it('Search emits not implemented',function(){
+
+        var timeout = setTimeout(function(){
+            assert(false, 'No event fired');
+        },1000);
+
+        var listener = rets.addListener('search',function(err, body){
+            clearTimeout(timeout);
+            assert(err.message === "Not implemented");
+        });
+
+        rets.search();
+    });
+
 });
 
 // process.stdout.write('\033c');
