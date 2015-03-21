@@ -2,6 +2,7 @@
   "name": "rets.js",
   "version": "0.0.1",
   "description": "Simplified RETS Node Client",
+  "keywords": ["rets", "mls", "real estate", "javascript", "node", "reso"],
   "main": "index.js",
   "dependencies": {
     "MD5": "^1.2.1",
