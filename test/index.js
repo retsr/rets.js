@@ -213,7 +213,7 @@ if(fs.existsSync('./test/servers.json')){
                     done();
                 },1000);
 
-                rets.addListener('login',function(){
+                rets.addListener('login',function(err){
                     rets.removeAllListeners('login');
                     clearTimeout(_timeout);
                     assert(true);
