@@ -24,6 +24,12 @@ Feel free to fork and send Pull Requests.
 
     npm run test-watch
 
+### Test targets
+
+By default, testing using nock to intercept and simulate known RETS server responses. However, it is nice to also
+test against your own live RETS servers. To enable additional tests against your server, rename ./test/servers.json.dist to ./test/servers.json
+and add your own server path and credentials.
+
 ## License
 
 See [LICENSE](LICENSE)
