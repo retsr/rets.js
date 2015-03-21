@@ -8,7 +8,15 @@
     "real estate",
     "javascript",
     "node",
-    "reso"
+    "reso",
+    "Real Estate Transaction Standard",
+    "real estate transaction standard",
+    "odata",
+    "retsly",
+    "zillow",
+    "trulia",
+    "rental",
+    "housing"
   ],
   "main": "index.js",
   "dependencies": {
