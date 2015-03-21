@@ -20,8 +20,8 @@
   },
   "scripts": {
     "dev": "DEBUG=rets.js:* ./node_modules/.bin/nodemon --quiet ./server",
-    "test-watch": "DEBUG=rets.js:* ./node_modules/mocha/bin/mocha --watch --reporter spec test",
     "test": "./node_modules/mocha/bin/mocha",
+    "test-watch": "DEBUG=rets.js:* ./node_modules/mocha/bin/mocha --watch --reporter spec test",
     "coverage": "mocha -R html-cov > test/coverage.html"
   },
   "repository": {

@@ -1,6 +1,6 @@
 var path = require('path');
 var util = require('util');
-var debug = require('debug')('lowmango:tests');
+var debug = require('debug')('rets.js:test');
 var assert = require("assert");
 var nock = require('nock');
 // var http = require('http');
