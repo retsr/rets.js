@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 var util = require('util');
 var debug = require('debug')('rets.js:test');
 var assert = require("assert");
@@ -8,8 +9,8 @@ var nock = require('nock');
 var RETS = require('../');
 var RETSError = require('../lib/error');
 
-var RETSURL = 'http://user:pass@rets.server.com:8080/Login.asmx/Login';
-var RETSLogin = nock('http://rets.server.com:8080').persist().get('/Login.asmx/Login').reply(200,'Yay');
+var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
+var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'Yay');
 
 nock.enableNetConnect();
 
@@ -188,5 +189,43 @@ describe('RETS Instance Method Calls',function(){
     });
 
 });
+
+
+if(fs.existsSync('./test/servers.json')){
+    var servers = require('./servers.json');
+
+    describe('RETS calls work against my servers',function(){
+
+        servers.forEach(function(item, index){
+
+            it('Can login to my server at ' + item.url, function(done){
+
+                var rets = new RETS({
+                    url: item.url,
+                    userAgent: item.userAgent,
+                    userAgentPassword: item.userAgentPassword,
+                    version: item.version
+                });
+
+                var _timeout = setTimeout(function(){
+                    rets.removeAllListeners('login');
+                    assert(false, 'No event fired');
+                    done();
+                },1000);
+
+                rets.addListener('login',function(){
+                    rets.removeAllListeners('login');
+                    clearTimeout(_timeout);
+                    assert(true);
+                    done();
+                });
+
+                rets.login();
+            });
+        });
+
+    });
+
+}
 
 // process.stdout.write('\033c');
