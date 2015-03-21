@@ -28,10 +28,6 @@
     "type": "git",
     "url": "https://github.com/retsr/rets.js.git"
   },
-  "author": "",
-  "contributors": [
-    "Luis Gomez <luis@luis.io> (http://luis.io/)"
-  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/retsr/rets.js/issues"
