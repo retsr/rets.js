@@ -10,6 +10,10 @@
 
 Simplified RETS Node Client
 
+## Motivation
+
+
+
 ## Usage
 
     npm install --save rets.js
