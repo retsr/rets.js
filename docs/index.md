@@ -1,36 +1,33 @@
-# Global
+# RETS
 
-
+RETSr.io rets.js RETS Client
 
 
 
 * * *
 
 ## Class: RETS
-RETS Constructor.
+Constructs a RETS instance.
 
-  Example code
+**session**: `Session` , Constructs a RETS instance.
+### RETS.RETS.login(url) 
 
-* List item 1
-* List item 2
-
-### RETS.login(options) 
-
-Some description
+Execute login action/capability against RETS service.
 
 **Parameters**
 
-**options**: `options`, Some options being passed
+**url**: `string | object`, A compliant URL string or URL module compatible url object.
 
 
-### RETS.search() 
+### RETS.RETS.search(query, options) 
 
-will be module:search
+Execute search action/capability against RETS service.
 
+**Parameters**
 
-### RETS.headers() 
+**query**: `Object`, A compliant URL string or URL module compatible url object.
 
-will be module.headers
+**options**: `Object`, A compliant URL string or URL module compatible url object.
 
 
 
