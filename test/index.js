@@ -1,4 +1,5 @@
 var path = require('path');
+var fs = require('fs');
 var util = require('util');
 var debug = require('debug')('rets.js:test');
 var assert = require("assert");
@@ -8,6 +9,26 @@ var nock = require('nock');
 var RETS = require('../');
 var RETSError = require('../lib/error');
 
+var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
+var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'<?xml version="1.0" encoding="utf-8"  ?>'
++"\n"+'<RETS ReplyCode="0" ReplyText="Operation Successful" >'
++"\n"+'<RETS-RESPONSE>'
++"\n"+'MemberName=John Doe'
++"\n"+'User=user,0,IDX Vendor,0000RETS   00'
++"\n"+'Broker=00,0'
++"\n"+'MetadataVersion=03.08.00024'
++"\n"+'MetadataTimestamp=2015-03-11T10:36:09'
++"\n"+'MinMetadataTimestamp=2015-03-11T10:36:09'
++"\n"+'TimeoutSeconds=1800'
++"\n"+'GetObject=/njs/GetObject'
++"\n"+'Login=/njs/Login'
++"\n"+'Logout=/njs/Logout'
++"\n"+'Search=/njs/Search'
++"\n"+'GetMetadata=/njs/GetMetadata'
++"\n"+'</RETS-RESPONSE>'
++"\n"+'</RETS>');
+
+nock.enableNetConnect();
 
 describe('RETS Class', function(){
 
@@ -32,9 +53,21 @@ describe('RETS Class', function(){
     });
 });
 
-var rets = new RETS('http://user:pass@sef.rets.interealty.com/Login.asmx/Login');
+var rets;
 
 describe('RETS Instance (rets)', function(){
+    it('Constructor accepts a string', function(){
+        rets = new RETS(RETSURL);
+        assert(rets instanceof RETS);
+    });
+    it('Constructor accepts an object', function(){
+        rets = new RETS({
+            url: RETSURL,
+            userAgent: 'RETS-Connector1/2',
+            userAgentPassword: ''
+        });
+        assert(rets instanceof RETS);
+    });
     it('Is an instance of RETS.', function(){
         assert(rets instanceof RETS);
     });
@@ -46,6 +79,9 @@ describe('RETS Instance (rets)', function(){
     });
     it('Has a search method.', function(){
         assert.equal(typeof rets.search, 'function');
+    });
+    it('Is an event emitter', function(){
+        assert.equal(typeof rets.addListener, 'function');
     });
 });
 
@@ -111,5 +147,93 @@ describe('Known Errors', function(){
         assert(err.message === codes[code][0]);
     });
 });
+
+describe('RETS Instance Methods',function(){
+    
+    it('Can login to a RETS server',function(done){
+
+        var _timeout = setTimeout(function(){
+            rets.removeAllListeners('login');
+            assert(false, 'No event fired');
+            done();
+        },1000);
+
+        var listener = rets.addListener('login',function(err, body){
+            rets.removeAllListeners('login');
+            clearTimeout(_timeout);
+            assert(err === null);
+            done();
+        });
+
+        rets.login();
+    });
+
+    it('Can read capabilities from the server',function(){
+        assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
+    });
+
+    it('Can search for property listings: NOT IMPLEMENTED',function(done){
+
+        var timeout = setTimeout(function(){
+            rets.removeAllListeners('search');
+            assert(false, 'No event fired');
+            done();
+        },1000);
+
+        var listener = rets.addListener('search',function(err, body){
+            rets.removeAllListeners('search');
+            clearTimeout(timeout);
+            assert(err.message === "Not implemented");
+            done();
+        });
+
+        rets.search();
+    });
+
+});
+
+
+if(fs.existsSync('./test/servers.json')){
+    var servers = require('./servers.json');
+
+    describe('RETS calls work against my servers',function(){
+
+        servers.forEach(function(item, index){
+
+            var rets = new RETS({
+                url: item.url,
+                userAgent: item.userAgent,
+                userAgentPassword: item.userAgentPassword,
+                version: item.version
+            });
+
+            it('Can login to my RETS server: ' + rets.session.url.host, function(done){
+
+                var _timeout = setTimeout(function(){
+                    rets.removeAllListeners('login');
+                    assert(false, 'No event fired');
+                    done();
+                },1000);
+
+                rets.addListener('login',function(err){
+                    rets.removeAllListeners('login');
+                    clearTimeout(_timeout);
+                    assert(err === null);
+                    done();
+                });
+
+                rets.login();
+            });
+
+            it('Can read capabilities from the server',function(){
+                assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
+            });
+
+
+        });
+
+    });
+
+}
 
 // process.stdout.write('\033c');
