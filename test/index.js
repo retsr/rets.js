@@ -10,23 +10,7 @@ var RETS = require('../');
 var RETSError = require('../lib/error');
 
 var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
-var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'<?xml version="1.0" encoding="utf-8"  ?>'
-+"\n"+'<RETS ReplyCode="0" ReplyText="Operation Successful" >'
-+"\n"+'<RETS-RESPONSE>'
-+"\n"+'MemberName=John Doe'
-+"\n"+'User=user,0,IDX Vendor,0000RETS   00'
-+"\n"+'Broker=00,0'
-+"\n"+'MetadataVersion=03.08.00024'
-+"\n"+'MetadataTimestamp=2015-03-11T10:36:09'
-+"\n"+'MinMetadataTimestamp=2015-03-11T10:36:09'
-+"\n"+'TimeoutSeconds=1800'
-+"\n"+'GetObject=/njs/GetObject'
-+"\n"+'Login=/njs/Login'
-+"\n"+'Logout=/njs/Logout'
-+"\n"+'Search=/njs/Search'
-+"\n"+'GetMetadata=/njs/GetMetadata'
-+"\n"+'</RETS-RESPONSE>'
-+"\n"+'</RETS>');
+nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200, fs.readFileSync(path.join(__dirname, 'fixtures/login-success.xml')));
 
 nock.enableNetConnect();
 
