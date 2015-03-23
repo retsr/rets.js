@@ -1,4 +1,3 @@
-var path = require('path');
 var fs = require('fs');
 var assert = require('assert');
 var nock = require('nock');
@@ -7,7 +6,26 @@ var RETS = require('../');
 var RETSError = require('../lib/error');
 
 var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
-nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200, fs.readFileSync(path.join(__dirname, 'fixtures/login-success.xml')));
+var RETSLoginSuccessResponse = [
+    '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
+    '<RETS-RESPONSE>',
+    'MemberName=John Doe',
+    'User=user,0,IDX Vendor,0000RETS   00',
+    'Broker=00,0',
+    'MetadataVersion=03.08.00024',
+    'MetadataTimestamp=2015-03-11T10:36:09',
+    'MinMetadataTimestamp=2015-03-11T10:36:09',
+    'TimeoutSeconds=1800',
+    'GetObject=/njs/GetObject',
+    'Login=/njs/Login',
+    'Logout=/njs/Logout',
+    'Search=/njs/Search',
+    'GetMetadata=/njs/GetMetadata',
+    '</RETS-RESPONSE>',
+    '</RETS>'
+].join('\n');
+
+nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,RETSLoginSuccessResponse);
 
 nock.enableNetConnect();
 
@@ -130,7 +148,7 @@ describe('Known Errors', function(){
 });
 
 describe('RETS Instance Methods',function(){
-    
+
     it('Can login to a RETS server',function(done){
 
         var _timeout = setTimeout(function(){
