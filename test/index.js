@@ -1,32 +1,31 @@
-var path = require('path');
 var fs = require('fs');
-var util = require('util');
-var debug = require('debug')('rets.js:test');
-var assert = require("assert");
+var assert = require('assert');
 var nock = require('nock');
-// var http = require('http');
 
 var RETS = require('../');
 var RETSError = require('../lib/error');
 
 var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
-var RETSLogin = nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,'<?xml version="1.0" encoding="utf-8"  ?>'
-+"\n"+'<RETS ReplyCode="0" ReplyText="Operation Successful" >'
-+"\n"+'<RETS-RESPONSE>'
-+"\n"+'MemberName=John Doe'
-+"\n"+'User=user,0,IDX Vendor,0000RETS   00'
-+"\n"+'Broker=00,0'
-+"\n"+'MetadataVersion=03.08.00024'
-+"\n"+'MetadataTimestamp=2015-03-11T10:36:09'
-+"\n"+'MinMetadataTimestamp=2015-03-11T10:36:09'
-+"\n"+'TimeoutSeconds=1800'
-+"\n"+'GetObject=/njs/GetObject'
-+"\n"+'Login=/njs/Login'
-+"\n"+'Logout=/njs/Logout'
-+"\n"+'Search=/njs/Search'
-+"\n"+'GetMetadata=/njs/GetMetadata'
-+"\n"+'</RETS-RESPONSE>'
-+"\n"+'</RETS>');
+var RETSLoginSuccessResponse = [
+    '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
+    '<RETS-RESPONSE>',
+    'MemberName=John Doe',
+    'User=user,0,IDX Vendor,0000RETS   00',
+    'Broker=00,0',
+    'MetadataVersion=03.08.00024',
+    'MetadataTimestamp=2015-03-11T10:36:09',
+    'MinMetadataTimestamp=2015-03-11T10:36:09',
+    'TimeoutSeconds=1800',
+    'GetObject=/njs/GetObject',
+    'Login=/njs/Login',
+    'Logout=/njs/Logout',
+    'Search=/njs/Search',
+    'GetMetadata=/njs/GetMetadata',
+    '</RETS-RESPONSE>',
+    '</RETS>'
+].join('\n');
+
+nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,RETSLoginSuccessResponse);
 
 nock.enableNetConnect();
 
@@ -121,7 +120,7 @@ describe('Unknown Errors', function(){
         assert(typeof err.code === 'undefined');
     });
     it('Error message should be "Invalid error code.".', function(){
-        assert(err.message === "Invalid error code.");
+        assert(err.message === 'Invalid error code.');
     });
 });
 
@@ -149,7 +148,7 @@ describe('Known Errors', function(){
 });
 
 describe('RETS Instance Methods',function(){
-    
+
     it('Can login to a RETS server',function(done){
 
         var _timeout = setTimeout(function(){
@@ -158,7 +157,7 @@ describe('RETS Instance Methods',function(){
             done();
         },1000);
 
-        var listener = rets.addListener('login',function(err, body){
+        rets.addListener('login',function(err){
             rets.removeAllListeners('login');
             clearTimeout(_timeout);
             assert(err === null);
@@ -180,10 +179,10 @@ describe('RETS Instance Methods',function(){
             done();
         },1000);
 
-        var listener = rets.addListener('search',function(err, body){
+        rets.addListener('search',function(err){
             rets.removeAllListeners('search');
             clearTimeout(timeout);
-            assert(err.message === "Not implemented");
+            assert(err.message === 'Not implemented');
             done();
         });
 
@@ -198,7 +197,7 @@ if(fs.existsSync('./test/servers.json')){
 
     describe('RETS calls work against my servers',function(){
 
-        servers.forEach(function(item, index){
+        servers.forEach(function(item){
 
             var rets = new RETS({
                 url: item.url,
