@@ -1,10 +1,7 @@
 var path = require('path');
 var fs = require('fs');
-var util = require('util');
-var debug = require('debug')('rets.js:test');
-var assert = require("assert");
+var assert = require('assert');
 var nock = require('nock');
-// var http = require('http');
 
 var RETS = require('../');
 var RETSError = require('../lib/error');
@@ -105,7 +102,7 @@ describe('Unknown Errors', function(){
         assert(typeof err.code === 'undefined');
     });
     it('Error message should be "Invalid error code.".', function(){
-        assert(err.message === "Invalid error code.");
+        assert(err.message === 'Invalid error code.');
     });
 });
 
@@ -142,7 +139,7 @@ describe('RETS Instance Methods',function(){
             done();
         },1000);
 
-        var listener = rets.addListener('login',function(err, body){
+        rets.addListener('login',function(err){
             rets.removeAllListeners('login');
             clearTimeout(_timeout);
             assert(err === null);
@@ -164,10 +161,10 @@ describe('RETS Instance Methods',function(){
             done();
         },1000);
 
-        var listener = rets.addListener('search',function(err, body){
+        rets.addListener('search',function(err){
             rets.removeAllListeners('search');
             clearTimeout(timeout);
-            assert(err.message === "Not implemented");
+            assert(err.message === 'Not implemented');
             done();
         });
 
@@ -182,7 +179,7 @@ if(fs.existsSync('./test/servers.json')){
 
     describe('RETS calls work against my servers',function(){
 
-        servers.forEach(function(item, index){
+        servers.forEach(function(item){
 
             var rets = new RETS({
                 url: item.url,

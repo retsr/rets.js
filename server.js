@@ -1,10 +1,10 @@
 var express = require('express');
-var path = require('path');
+// var path = require('path');
 var debug = require('debug')('lowmango:server');
 var logger = require('morgan');
-var util = require('util');
+// var util = require('util');
 var app = express();
-var config = require('./config.json');
+// var config = require('./config.json');
 var rets = require('./lib/rets-old');
 
 app.set('port', (process.env.PORT || '3000'));
@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
 });
 
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function(err, req, res) {
         res.status(err.status || 500);
         res.json({
             message: err.message,
@@ -32,7 +32,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.json({
         message: err.message,
@@ -41,7 +41,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(app.get('port'), function(){
-    debug("App Started...");
+    debug('App Started...');
 });
 
 module.exports = app;
