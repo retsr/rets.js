@@ -1,3 +1,3 @@
 /** @module RETS */
 
-module.exports = require('./lib');
+module.exports = require('./lib/rets');
