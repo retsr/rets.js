@@ -32,11 +32,27 @@ Execute GetMetadata action/capability against RETS service.
                         METADATA-LOOKUP, METADATA-LOOKUP_TYPE, METADATA-FOREIGN_KEY, METADATA-FILTER, 
                         METADATA-FILTER_TYPE, METADATA-RESOURCE, METADATA-CLASS, METADATA-OBJECT, 
                         METADATA-TABLE, METADATA-SYSTEM, METADATA-UPDATE, METADATA-UPDATE_TYPE, 
-                        METADATA-SEARCH_HELP, etc. (ref http://www.reso.org/assets/RETS/Specifications/rets_1_8.pdf)
+                        METADATA-SEARCH_HELP, etc.
 
 **id**: `string`, Resource ID to lookup
 
 **format**: `string`, XML-Standard
+
+
+
+### RETS.getObject(resource, type, id, location) 
+
+Execute GetObject action/capability against RETS service.
+
+**Parameters**
+
+**resource**: `string`, Resource identifier
+
+**type**: `string`, Object type
+
+**id**: `string`, Related record id
+
+**location**: `boolean`, Return binary or as URL
 
 
 

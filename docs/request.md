@@ -8,21 +8,21 @@ RETSr.io rets.js RETS Client
 
 ### RETS.request(session, action, options, callback) 
 
-RETS request wraps `node-request`
+Constructs a RETS Response that wraps `node-request`
 Handles proper use of session data and authentication
 info as well as validating calls
 
 **Parameters**
 
-**session**: `object`, [description]
+**session**: `object`, An instance of RETS Session
 
-**action**: `string`, [description]
+**action**: `string`, The action/capability to execute
 
-**options**: `object`, [description]
+**options**: `object`, additional options to pass request
 
-**callback**: `function`, [description]
+**callback**: `function`, request error handling
 
-**Returns**: `void`, [description]
+**Returns**: `object`, Returns and instance of RETS response
 
 
 
