@@ -373,6 +373,7 @@ if(fs.existsSync('./test/servers.json')){
             });
 
             it('Can search for property listings',function(done){
+                var search = '';
 
                 var timeout = setTimeout(function(){
                     rets.removeAllListeners('search');
@@ -383,11 +384,14 @@ if(fs.existsSync('./test/servers.json')){
                 rets.addListener('search',function(err){
                     rets.removeAllListeners('search');
                     clearTimeout(timeout);
-                    assert(err === null);
+                    assert(err === null && search !== '');
                     done();
                 });
 
-                rets.search(item.search);
+                rets.search(item.search)
+                .on('data',function(line){
+                    search += line.toString();
+                });
             });
 
             it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
