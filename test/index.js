@@ -32,11 +32,20 @@ var RETSLoginSuccessResponse = [
     '</RETS>'
 ].join('\n');
 
+var RETSLogoutSuccessResponse = [
+    '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
+    '<RETS-RESPONSE>',
+    'ConnectTime=0 minutes',
+    'SignOffMessage=Logged out.',
+    '</RETS-RESPONSE>',
+    '</RETS>'
+].join('\n');
+
 nock(NockURLS.host).persist()
     .get(NockURLS.login)
     .reply(200,RETSLoginSuccessResponse)
     .get(NockURLS.logout)
-    .reply(200,RETSLoginSuccessResponse);
+    .reply(200,RETSLogoutSuccessResponse);
 
 nock.enableNetConnect();
 
@@ -224,7 +233,7 @@ describe('RETS Instance Methods',function(){
 if(fs.existsSync('./test/servers.json')){
     var servers = require('./servers.json');
 
-    describe('RETS calls work against my servers',function(){
+    describe('RETS calls work against my servers', function(){
 
         servers.forEach(function(item){
 
@@ -253,8 +262,26 @@ if(fs.existsSync('./test/servers.json')){
                 rets.login();
             });
 
-            it('Can read capabilities from the server',function(){
+            it('Can read capabilities from the server', function(){
                 assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
+            });
+
+            it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
+
+                var _timeout = setTimeout(function(){
+                    rets.removeAllListeners('logout');
+                    assert(false, 'No event fired');
+                    done();
+                },1000);
+
+                rets.addListener('logout',function(err){
+                    rets.removeAllListeners('logout');
+                    clearTimeout(_timeout);
+                    assert(err === null);
+                    done();
+                });
+
+                rets.logout();
             });
 
 
