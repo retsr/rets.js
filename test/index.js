@@ -5,7 +5,14 @@ var nock = require('nock');
 var RETS = require('../');
 var RETSError = require('../lib/error');
 
-var RETSURL = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
+var NockURLS = {
+    host: 'http://rets.server.com:9160',
+    login: '/Login.asmx/Login',
+    logout: '/njs/Logout'
+};
+
+var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login'
+
 var RETSLoginSuccessResponse = [
     '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
     '<RETS-RESPONSE>',
@@ -25,7 +32,11 @@ var RETSLoginSuccessResponse = [
     '</RETS>'
 ].join('\n');
 
-nock('http://rets.server.com:9160').persist().get('/Login.asmx/Login').reply(200,RETSLoginSuccessResponse);
+nock(NockURLS.host).persist()
+    .get(NockURLS.login)
+    .reply(200,RETSLoginSuccessResponse)
+    .get(NockURLS.logout)
+    .reply(200,RETSLoginSuccessResponse);
 
 nock.enableNetConnect();
 
@@ -56,12 +67,12 @@ var rets;
 
 describe('RETS Instance (rets)', function(){
     it('Constructor accepts a string', function(){
-        rets = new RETS(RETSURL);
+        rets = new RETS( RETSLogin );
         assert(rets instanceof RETS);
     });
     it('Constructor accepts an object', function(){
         rets = new RETS({
-            url: RETSURL,
+            url: RETSLogin,
             userAgent: 'RETS-Connector1/2',
             userAgentPassword: ''
         });
@@ -187,6 +198,24 @@ describe('RETS Instance Methods',function(){
         });
 
         rets.search();
+    });
+
+    it('Can logout of a RETS server',function(done){
+
+        var _timeout = setTimeout(function(){
+            rets.removeAllListeners('logout');
+            assert(false, 'No event fired');
+            done();
+        },1000);
+
+        rets.addListener('logout',function(err){
+            rets.removeAllListeners('logout');
+            clearTimeout(_timeout);
+            assert(err === null);
+            done();
+        });
+
+        rets.logout();
     });
 
 });
