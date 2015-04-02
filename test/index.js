@@ -9,6 +9,7 @@ var NockURLS = {
     host: 'http://rets.server.com:9160',
     login: '/Login.asmx/Login',
     getMetadata: '/njs/GetMetadata',
+    search: '/njs/Search',
     logout: '/njs/Logout'
 };
 
@@ -81,6 +82,8 @@ nock(NockURLS.host).persist()
     .get(NockURLS.login)
     .reply(200,RETSLoginSuccessResponse)
     .get(NockURLS.getMetadata + '?Type=METADATA-RESOURCE&ID=Property&Format=STANDARD-XML')
+    .reply(200,RETSMetadataSuccessResponse)
+    .get(NockURLS.search + '?SearchType=Property&Class=ResidentialProperty&Query=%28Status%3D%7CA%29&QueryType=DMQL2&Count=1&Format=COMPACT-DECODED&Limit=3&StandardNames=1')
     .reply(200,RETSMetadataSuccessResponse)
     .get(NockURLS.logout)
     .reply(200,RETSLogoutSuccessResponse);
@@ -244,10 +247,10 @@ describe('RETS Instance Methods',function(){
             done();
         });
 
-        rets.getMetadata('METADATA-RESOURCE', 'Property');
+        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: 'Property'});
     });
 
-    it('Can search for property listings: NOT IMPLEMENTED',function(done){
+    it('Can search for property listings',function(done){
 
         var timeout = setTimeout(function(){
             rets.removeAllListeners('search');
@@ -258,11 +261,18 @@ describe('RETS Instance Methods',function(){
         rets.addListener('search',function(err){
             rets.removeAllListeners('search');
             clearTimeout(timeout);
-            assert(err.message === 'Not implemented');
+            assert(err === null);
             done();
         });
 
-        rets.search();
+        rets.search({
+            SearchType: 'Property',
+            Class: 'ResidentialProperty',
+            Query: '(Status=|A)',
+            QueryType: 'DMQL2',
+            Limit: 3,
+            StandardNames: 1
+        });
     });
 
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
@@ -324,7 +334,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('login');
                     assert(false, 'No event fired');
                     done();
-                },1000);
+                },3000);
 
                 rets.addListener('login',function(err){
                     rets.removeAllListeners('login');
@@ -347,7 +357,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('metadata');
                     assert(false, 'No event fired');
                     done();
-                },1000);
+                },5000);
 
                 rets.addListener('metadata',function(err){
                     rets.removeAllListeners('metadata');
@@ -356,9 +366,28 @@ if(fs.existsSync('./test/servers.json')){
                     done();
                 });
 
-                rets.getMetadata('METADATA-RESOURCE', 'Property').on('data',function(line){
+                rets.getMetadata({ Type:'METADATA-RESOURCE', ID: 'Property'})
+                .on('data',function(line){
                     metadata += line.toString();
                 });
+            });
+
+            it('Can search for property listings',function(done){
+
+                var timeout = setTimeout(function(){
+                    rets.removeAllListeners('search');
+                    assert(false, 'No event fired');
+                    done();
+                },30000);
+
+                rets.addListener('search',function(err){
+                    rets.removeAllListeners('search');
+                    clearTimeout(timeout);
+                    assert(err === null);
+                    done();
+                });
+
+                rets.search(item.search);
             });
 
             it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
@@ -367,7 +396,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('logout');
                     assert(false, 'No event fired');
                     done();
-                },1000);
+                },3000);
 
                 rets.addListener('logout',function(err){
                     rets.removeAllListeners('logout');
