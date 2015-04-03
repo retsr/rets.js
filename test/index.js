@@ -13,7 +13,7 @@ var NockURLS = {
     logout: '/njs/Logout'
 };
 
-var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login'
+var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
 
 var RETSLoginSuccessResponse = [
     '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
