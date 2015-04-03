@@ -13,7 +13,7 @@ var NockURLS = {
     logout: '/njs/Logout'
 };
 
-var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login'
+var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
 
 var RETSLoginSuccessResponse = [
     '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
@@ -316,7 +316,6 @@ describe('RETS Instance Methods',function(){
 
 if(fs.existsSync('./test/servers.json')){
     var servers = require('./servers.json');
-
     describe('RETS calls work against my servers', function(){
 
         servers.forEach(function(item){
@@ -330,6 +329,7 @@ if(fs.existsSync('./test/servers.json')){
 
             it('Can login to my RETS server: ' + rets.session.url.host, function(done){
 
+                this.timeout(15000);
                 var _timeout = setTimeout(function(){
                     rets.removeAllListeners('login');
                     assert(false, 'No event fired');
@@ -353,6 +353,7 @@ if(fs.existsSync('./test/servers.json')){
             it('Can get metadata from my server',function(done){
                 var metadata = '';
 
+                this.timeout(30000);
                 var timeout = setTimeout(function(){
                     rets.removeAllListeners('metadata');
                     assert(false, 'No event fired');
@@ -375,6 +376,7 @@ if(fs.existsSync('./test/servers.json')){
             it('Can search for property listings',function(done){
                 var search = '';
 
+                this.timeout(30000);
                 var timeout = setTimeout(function(){
                     rets.removeAllListeners('search');
                     assert(false, 'No event fired');
@@ -396,6 +398,7 @@ if(fs.existsSync('./test/servers.json')){
 
             it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
 
+                this.timeout(15000);
                 var _timeout = setTimeout(function(){
                     rets.removeAllListeners('logout');
                     assert(false, 'No event fired');
