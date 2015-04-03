@@ -334,7 +334,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('login');
                     assert(false, 'No event fired');
                     done();
-                },3000);
+                },15000);
 
                 rets.addListener('login',function(err){
                     rets.removeAllListeners('login');
@@ -357,7 +357,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('metadata');
                     assert(false, 'No event fired');
                     done();
-                },5000);
+                },30000);
 
                 rets.addListener('metadata',function(err){
                     rets.removeAllListeners('metadata');
@@ -400,7 +400,7 @@ if(fs.existsSync('./test/servers.json')){
                     rets.removeAllListeners('logout');
                     assert(false, 'No event fired');
                     done();
-                },3000);
+                },15000);
 
                 rets.addListener('logout',function(err){
                     rets.removeAllListeners('logout');
