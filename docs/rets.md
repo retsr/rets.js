@@ -22,49 +22,67 @@ Execute logout action/capability against RETS service.
 
 
 
-### RETS.getMetadata(type, id, format) 
+### RETS.getMetadata(options, options.type, options.id, options.format) 
 
 Execute GetMetadata action/capability against RETS service.
 
 **Parameters**
 
-**type**: `string`, Metadata types can be:
+**options**: `Object`, GetMetadata Request Options:
+
+**options.type**: `string`, Metadata types can be:
                         METADATA-LOOKUP, METADATA-LOOKUP_TYPE, METADATA-FOREIGN_KEY, METADATA-FILTER, 
                         METADATA-FILTER_TYPE, METADATA-RESOURCE, METADATA-CLASS, METADATA-OBJECT, 
                         METADATA-TABLE, METADATA-SYSTEM, METADATA-UPDATE, METADATA-UPDATE_TYPE, 
                         METADATA-SEARCH_HELP, etc.
 
-**id**: `string`, Resource ID to lookup
+**options.id**: `string`, Resource ID to lookup
 
-**format**: `string`, XML-Standard
+**options.format**: `string`, XML-Standard
 
 
 
-### RETS.getObject(resource, type, id, location) 
+### RETS.getObject(options, options.resource, options.type, options.id, options.location) 
 
 Execute GetObject action/capability against RETS service.
 
 **Parameters**
 
-**resource**: `string`, Resource identifier
+**options**: `Object`, GetObject Request Options
 
-**type**: `string`, Object type
+**options.resource**: `string`, Resource identifier
 
-**id**: `string`, Related record id
+**options.type**: `string`, Object type
 
-**location**: `boolean`, Return binary or as URL
+**options.id**: `string`, Related record id
+
+**options.location**: `bool`, Return binary or as URL
 
 
 
-### RETS.search(query, options) 
+### RETS.search(options, options.SearchType, options.Class, options.Query, options.QueryType, options.Count, options.Format, optionsLimit, options.StandardNames) 
 
 Execute search action/capability against RETS service.
 
 **Parameters**
 
-**query**: `Object`, A compliant URL string or URL module compatible url object.
-
 **options**: `Object`, A compliant URL string or URL module compatible url object.
+
+**options.SearchType**: `string`, Resource to search against
+
+**options.Class**: `string`, Class to search against
+
+**options.Query**: `string`, DMQL(2) query
+
+**options.QueryType**: `string`, Specify DMQL or DMQL2 query
+
+**options.Count**: `Number`, Boolean; should the server return a record count
+
+**options.Format**: `String`, Data format type COMPACT, COMPACT-DECODED or STANDARD-XML
+
+**optionsLimit**: `Number`, Record limit to fetch
+
+**options.StandardNames**: `Number`, Boolean to return fields as StandardNames
 
 
 
