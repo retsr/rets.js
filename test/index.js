@@ -34,6 +34,11 @@ var RETSLoginSuccessResponse = [
     '</RETS>'
 ].join('\n');
 
+var RETSLoginFailResponse = [
+    '<RETS ReplyCode="20807" ReplyText="Unauthorized" >',
+    '</RETS>'
+].join('\n');
+
 var RETSLogoutSuccessResponse = [
     '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
     '<RETS-RESPONSE>',
@@ -225,7 +230,13 @@ describe('RETS Instance Methods',function(){
             done();
         });
 
-        rets.login();
+        rets.login()
+        .on('error',function(err){
+            rets.removeAllListeners('login');
+            clearTimeout(_timeout);
+            assert(false, err.message);
+            done();
+        });
     });
 
     it('Can read capabilities from the server',function(){
