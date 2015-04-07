@@ -24,7 +24,8 @@
     "event-stream": "^3.3.0",
     "inflected": "^1.1.6",
     "lodash": "^3.5.0",
-    "request": "^2.53.0"
+    "request": "^2.53.0",
+    "sax": "^0.6.1"
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
