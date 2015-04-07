@@ -2,11 +2,27 @@
 	{
 		"url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
 		"userAgent": "RETS-Connector1/2",
-	    "userAgentPassword": ""
+	    "userAgentPassword": "",
+	    "search": {
+            "SearchType": "Property",
+            "Class": "ResidentialProperty",
+            "Query": "(ListingStatus=|A)",
+            "QueryType": "DMQL2",
+            "Limit": 3,
+            "StandardNames": 1
+	    }
 	},
 	{
 		"url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
 		"userAgent": "RETS-Connector1/2",
-	    "userAgentPassword": ""
+	    "userAgentPassword": "",
+	    "search": {
+            "SearchType": "Property",
+            "Class": "ResidentialProperty",
+            "Query": "(ListingStatus=|A)",
+            "QueryType": "DMQL2",
+            "Limit": 3,
+            "StandardNames": 1
+	    }
 	}
 ]

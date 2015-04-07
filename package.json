@@ -44,8 +44,8 @@
     "test": "./node_modules/.bin/mocha",
     "test-watch": "DEBUG=rets.js:* ./node_modules/.bin/mocha --watch --reporter spec test",
     "jsdoc": "jsdoc -X lib",
-    "docs": "npm run clean && jsdox --output docs lib",
-    "lint": "find . -name '*.js' ! -path './node_modules/*' -print0 | xargs -0 jshint --exclude=lib/rets-old.js",
+    "docs": "npm run clean && ./node_modules/.bin/jsdox --output docs lib",
+    "lint": "find . -name '*.js' ! -path './node_modules/*' -print0 | xargs -0 ./node_modules/.bin/jshint --exclude=lib/rets-old.js",
     "prepublish": "npm run docs"
   },
   "repository": {
