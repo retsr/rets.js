@@ -88,7 +88,7 @@ nock(NockURLS.host).persist()
     .reply(200,RETSLoginSuccessResponse)
     .get(NockURLS.getMetadata + '?Type=METADATA-RESOURCE&ID=Property&Format=STANDARD-XML')
     .reply(200,RETSMetadataSuccessResponse)
-    .get(NockURLS.search + '?SearchType=Property&Class=ResidentialProperty&Query=%28Status%3D%7CA%29&QueryType=DMQL2&Count=1&Format=COMPACT-DECODED&Limit=3&StandardNames=1')
+    .get(NockURLS.search + '?SearchType=Property&Class=ResidentialProperty&Query=%28Status%3D%7CA%29&QueryType=DMQL2&Count=1&Offset=1&Format=COMPACT-DECODED&Limit=3&StandardNames=1')
     .reply(200,RETSMetadataSuccessResponse)
     .get(NockURLS.logout)
     .reply(200,RETSLogoutSuccessResponse);
@@ -323,7 +323,6 @@ describe('RETS Instance Methods',function(){
     });
 
 });
-
 
 if(fs.existsSync('./test/servers.json')){
     var servers = require('./servers.json');
