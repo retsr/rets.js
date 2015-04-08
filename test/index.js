@@ -251,7 +251,7 @@ describe('RETS Instance Methods',function(){
             done();
         },1000);
 
-        rets.addListener('metadata',function(err){
+        rets.addListener('metadata',function(err, result){
             rets.removeAllListeners('metadata');
             clearTimeout(timeout);
             assert(err === null);
