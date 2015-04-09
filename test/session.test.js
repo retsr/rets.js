@@ -7,8 +7,11 @@ module.exports = describe('Session', function(){
     var instance = null;
     var config = require('./mock');
     var expectedDefaults = {
-        UA: 'RETS-Connector1/2',
-        UAP: '',
+        url: null,
+        ua: {
+            name: 'RETS-Connector1/2',
+            pass: ''
+        },
         version: 'RETS/1.7.2'
     };
 
@@ -21,7 +24,7 @@ module.exports = describe('Session', function(){
     });
 
     beforeEach('beforeEach description', function(){
-        instance = new Session(url, config);
+        instance = new Session(config);
     });
 
     afterEach('afterEach description', function(){
@@ -45,10 +48,8 @@ module.exports = describe('Session', function(){
     });
 
     it('Has the correct set of expected defaults.', function(){
-        var instance = new Session(url);
-        Object.keys(expectedDefaults).forEach(function(key) {
-            assert.equal(expectedDefaults[key], instance.defaults[key]);
-        });
+        var instance = new Session(config);
+        assert.deepEqual(expectedDefaults, instance.defaults);
     });
 
     it('instance.url is an object.', function(){
@@ -61,12 +62,12 @@ module.exports = describe('Session', function(){
     });
 
     it('Instance.url.host set to expected value.', function(){
-        var host = 'rets.server.com:9160';
+        var host = 'localhost:9160';
         assert.equal(instance.url.host, host);
     });
 
     it('Instance.url.path set to expected value.', function(){
-        var path = '/Login.asmx/Login';
+        var path = '/mock/Login';
         assert.equal(instance.url.path, path);
     });
 
@@ -88,7 +89,7 @@ module.exports = describe('Session', function(){
 
     it('.hash returns the expected hash.', function(){
         var md5 = require('MD5');
-        var hash = md5([md5([config.userAgent, config.userAgentPassword].join(':').trim()),'','',instance.version].join(':'));
+        var hash = md5([md5([config.ua.name, config.ua.pass].join(':').trim()),'','',instance.version].join(':'));
         assert.equal(instance.hash(), hash);
     });
 
