@@ -105,53 +105,6 @@ nock.enableNetConnect();
 /*
 var rets;
 
-describe('RETSError Class', function(){
-    it('Was found.', function(){
-        assert.notEqual(typeof RETSError, 'undefined');
-    });
-    it('Is a function.', function(){
-        assert.equal(typeof RETSError, 'function');
-    });
-});
-
-describe('Unknown Errors', function(){
-
-    var err = new RETSError();
-
-    it('Should be an instance of RETSError.', function(){
-        assert(err instanceof RETSError);
-    });
-    it('Error code should be undefined.', function(){
-        assert(typeof err.code === 'undefined');
-    });
-    it('Error message should be "Invalid error code.".', function(){
-        assert(err.message === 'Invalid error code.');
-    });
-});
-
-describe('Known Errors', function(){
-
-    var codes = require('../lib/codes');
-
-    it('Error codes loaded correctly.', function(){
-        assert(typeof codes === 'object');
-    });
-
-    var code = 20041;
-    var err = new RETSError(code);
-
-    // debug(codes[code]);
-    it('Should be an instance of RETSError.', function(){
-        assert(err instanceof RETSError);
-    });
-    it('Error code should be "' + code + '".', function(){
-        assert(err.code === code);
-    });
-    it('Error message should be "' + codes[code][0] + '".', function(){
-        assert(err.message === codes[code][0]);
-    });
-});
-
 describe('RETS Instance Methods',function(){
 
     it('Can login to a RETS server',function(done){
