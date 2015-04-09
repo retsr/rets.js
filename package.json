@@ -44,7 +44,7 @@
   "scripts": {
     "clean": "rm -rf docs",
     "dev": "DEBUG=rets.js:* ./node_modules/.bin/nodemon --quiet ./server",
-    "test": "./node_modules/.bin/mocha",
+    "test": "./node_modules/.bin/mocha test/index",
     "test-watch": "DEBUG=rets.js:* ./node_modules/.bin/mocha --watch --recursive --reporter spec test/index",
     "jsdoc": "jsdoc -X lib",
     "docs": "npm run clean && ./node_modules/.bin/jsdox --output docs lib",
