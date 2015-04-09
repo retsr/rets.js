@@ -1,15 +1,16 @@
 var assert = require('assert');
-// var debug = require('debug')('rets.js:rets.test.js');
+var debug = require('debug')('rets.js:rets.test.js');
+var nock = require('nock');
+var URL = require('url');
 
 module.exports = describe('RETS', function(){
 
     var RETS = null;
     var instance = null;
-    var config = {
-        url: 'http://user:pass@rets.server.com:9160/Login.asmx/Login',
-        userAgent: 'RETS-Connector1/2',
-        userAgentPassword: ''
-    };
+    var mock = require('./servers/mock');
+    var config = mock.config;
+    var servers = require('./servers');
+        servers.push(mock);
 
     before('Load RETS', function() {
         RETS = require('../lib/rets');
@@ -64,6 +65,71 @@ module.exports = describe('RETS', function(){
 
     it('Is an event emitter', function(){
         assert.equal(typeof instance.addListener, 'function');
+    });
+
+    servers.forEach(function(server){
+        describe('Testing against: ' + server.name, function(){
+
+            var instance = null;
+            // var _nock = nock(server.config.url).persist();
+
+
+            before('Mocking server', function() {
+                instance = new RETS(server.config.url);
+            });
+
+            after('after description', function(){
+                // _nock.cleanAll();
+            });
+
+            Object.keys(server.capabilities).forEach(function(key) {
+                // debug("server.capabilities[key].path: %o", server.capabilities[key].path);
+                // debug("server.capabilities[key].success: %o", server.capabilities[key].success);
+                // _nock.get(server.capabilities[key].path).reply(200,server.capabilities[key].success);
+                // assert.equal(server.capabilities[key], instance.defaults[key]);
+            });
+
+            it('Calling ' + server.config.url + server.capabilities['Login'].path, function(done){
+
+                nock("http://rets.server.com:9160").persist().get("/Login.asmx/Login").reply(200,"HOLA!");
+                var request = require('request');
+                request("http://rets.server.com:9160/Login.asmx/Login", function(response){
+                    done();
+                });
+
+                // var _timeout = setTimeout(function(){
+                //     instance.removeAllListeners('login');
+                //     assert(false, 'No event fired');
+                //     done();
+                // },1000);
+
+                // instance.addListener('login',function(err){
+                //     instance.removeAllListeners('login');
+                //     clearTimeout(_timeout);
+                //     assert(err === null);
+                //     done();
+                // });
+
+                // instance.login().on("response", function(response){
+                //     debug("Login response: %o", response);
+                //     done();
+                // }).on("error", function(err){
+                //     debug("Login error: %o", err);
+                // });
+                // .on('error',function(err){
+                //     instance.removeAllListeners('login');
+                //     clearTimeout(_timeout);
+                //     assert(false, err.message);
+                //     done();
+                // });
+
+            });
+            it('Can read capabilities from the server');
+            it('Can get metadata from the server');
+            it('Can search for property listings');
+            it('Can get object from the server: NOT IMPLEMENTED');
+            it('Can logout of a RETS server');
+        });
     });
 
 });
