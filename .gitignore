@@ -1,5 +1,7 @@
 config.json
-test/servers.json
+test/servers/*
+!test/servers/index.js
+!test/servers/mock.js
 
 # Logs
 logs
