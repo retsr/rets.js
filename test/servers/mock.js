@@ -1,7 +1,7 @@
 module.exports = {
     "name": "Mock Server",
     "config": {
-        "url": "http://user:pass@rets.server.com:9160",
+        "url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
         "userAgent": "RETS-Connector1/2",
         "userAgentPassword": "",
     },

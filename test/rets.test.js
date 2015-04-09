@@ -1,7 +1,6 @@
 var assert = require('assert');
 var debug = require('debug')('rets.js:rets.test.js');
 var nock = require('nock');
-var URL = require('url');
 
 module.exports = describe('RETS', function(){
 
@@ -10,21 +9,21 @@ module.exports = describe('RETS', function(){
     var mock = require('./servers/mock');
     var config = mock.config;
     var servers = require('./servers');
-        servers.push(mock);
+        // servers.push(mock);
 
     before('Load RETS', function() {
         RETS = require('../lib/rets');
     });
 
-    after('after description', function(){
+    after('Clanup after all tests.', function(){
         RETS = null;
     });
 
-    beforeEach('beforeEach description', function(){
+    beforeEach('Create new instance before each test.', function(){
         instance = new RETS(config);
     });
 
-    afterEach('afterEach description', function(){
+    afterEach('Clear instance after each test.', function(){
         instance = null;
     });
 
@@ -40,19 +39,28 @@ module.exports = describe('RETS', function(){
         assert(instance instanceof RETS);
     });
 
-    it('Accepts a string as options.', function(){
-        instance = new RETS(config.url);
-        assert.equal(instance.config.url, config.url);
+    it('Throws an error if options is undefined.', function(){
+        assert.throws(function(){
+            new RETS();
+        }, Error);
+    });
+
+    it('Throws an error if options.url is undefined.', function(){
+        assert.throws(function(){
+            new RETS({});
+        }, Error);
+    });
+
+    it('Throws an error if options.url is not a valid url.', function(){
+        assert.throws(function(){
+            new RETS({url:"some invalid url"});
+        }, Error);
     });
 
     it('Accepts an object as options.', function(){
         assert.equal(instance.config.url, config.url);
         assert.equal(instance.config.userAgent, config.userAgent);
         assert.equal(instance.config.userAgentPassword, config.userAgentPassword);
-    });
-
-    it('Has a session.capabilities object.', function(){
-        assert.equal(typeof instance.session.capabilities, 'object');
     });
 
     it('Has a login method.', function(){
@@ -68,11 +76,9 @@ module.exports = describe('RETS', function(){
     });
 
     servers.forEach(function(server){
-        describe('Testing against: ' + server.name, function(){
+        context('Testing against: ' + server.name, function(){
 
             var instance = null;
-            // var _nock = nock(server.config.url).persist();
-
 
             before('Mocking server', function() {
                 instance = new RETS(server.config.url);
@@ -82,20 +88,14 @@ module.exports = describe('RETS', function(){
                 // _nock.cleanAll();
             });
 
-            Object.keys(server.capabilities).forEach(function(key) {
-                // debug("server.capabilities[key].path: %o", server.capabilities[key].path);
-                // debug("server.capabilities[key].success: %o", server.capabilities[key].success);
-                // _nock.get(server.capabilities[key].path).reply(200,server.capabilities[key].success);
-                // assert.equal(server.capabilities[key], instance.defaults[key]);
-            });
-
-            it('Calling ' + server.config.url + server.capabilities['Login'].path, function(done){
-
-                nock("http://rets.server.com:9160").persist().get("/Login.asmx/Login").reply(200,"HOLA!");
-                var request = require('request');
-                request("http://rets.server.com:9160/Login.asmx/Login", function(response){
-                    done();
-                });
+            it('Logging into: ' + server.name, function(done){
+                debug("server.config.url: %o", server.config.url);
+                // nock(server.config.url).get(server.capabilities[key].path).reply(200,server.capabilities[key].success);
+                // var request = require('request');
+                // request(server.config.url + server.capabilities[key].path, function(err, response, body){
+                //     // debug("response: %o", body);
+                //     done();
+                // });
 
                 // var _timeout = setTimeout(function(){
                 //     instance.removeAllListeners('login');
@@ -124,11 +124,56 @@ module.exports = describe('RETS', function(){
                 // });
 
             });
-            it('Can read capabilities from the server');
-            it('Can get metadata from the server');
-            it('Can search for property listings');
-            it('Can get object from the server: NOT IMPLEMENTED');
-            it('Can logout of a RETS server');
+
+            Object.keys(server.capabilities).forEach(function(key) {
+
+                it('Calling ' + server.config.url + server.capabilities[key].path, function(done){
+
+                    nock(server.config.url).get(server.capabilities[key].path).reply(200,server.capabilities[key].success);
+                    var request = require('request');
+                    request(server.config.url + server.capabilities[key].path, function(err, response, body){
+                        // debug("response: %o", body);
+                        done();
+                    });
+
+                    // var _timeout = setTimeout(function(){
+                    //     instance.removeAllListeners('login');
+                    //     assert(false, 'No event fired');
+                    //     done();
+                    // },1000);
+
+                    // instance.addListener('login',function(err){
+                    //     instance.removeAllListeners('login');
+                    //     clearTimeout(_timeout);
+                    //     assert(err === null);
+                    //     done();
+                    // });
+
+                    // instance.login().on("response", function(response){
+                    //     debug("Login response: %o", response);
+                    //     done();
+                    // }).on("error", function(err){
+                    //     debug("Login error: %o", err);
+                    // });
+                    // .on('error',function(err){
+                    //     instance.removeAllListeners('login');
+                    //     clearTimeout(_timeout);
+                    //     assert(false, err.message);
+                    //     done();
+                    // });
+
+                });
+                it('Can read capabilities from the server');
+                it('Can get metadata from the server');
+                it('Can search for property listings');
+                it('Can get object from the server: NOT IMPLEMENTED');
+                it('Can logout of a RETS server');
+                // debug("server.capabilities[key].path: %o", server.capabilities[key].path);
+                // debug("server.capabilities[key].success: %o", server.capabilities[key].success);
+                // _nock.get(server.capabilities[key].path).reply(200,server.capabilities[key].success);
+                // assert.equal(server.capabilities[key], instance.defaults[key]);
+            });
+
         });
     });
 
