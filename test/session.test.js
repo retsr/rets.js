@@ -5,12 +5,7 @@ module.exports = describe('Session', function(){
 
     var Session = null;
     var instance = null;
-    var url = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
-    var config = {
-        userAgent: 'test-ua',
-        userAgentPassword: 'test-password',
-        version: 'blah'
-    };
+    var config = require('./mock');
     var expectedDefaults = {
         UA: 'RETS-Connector1/2',
         UAP: '',
