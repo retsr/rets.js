@@ -12,8 +12,8 @@ if(fs.existsSync('./test/servers/servers.json')) {
         var rets = new RETS({
             url: item.url,
             ua: {
-                name: item.userAgent,
-                pass: item.userAgentPassword
+                name: item.ua.name,
+                pass: item.ua.pass
             },
             version: item.version
         });
@@ -32,7 +32,7 @@ if(fs.existsSync('./test/servers/servers.json')) {
                 rets.addListener('login',function(err){
                     rets.removeAllListeners('login');
                     clearTimeout(_timeout);
-                    if (err) console.trace(err);
+                    // if (err) { console.trace(err); }
                     assert(err === null);
                     done();
                 });
