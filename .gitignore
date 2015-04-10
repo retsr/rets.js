@@ -2,6 +2,7 @@ config.json
 test/servers/*
 !test/servers/index.js
 !test/servers/mock.js
+!test/servers/live.js
 !test/servers/servers.json.dist
 
 # Logs
