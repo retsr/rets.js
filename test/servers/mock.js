@@ -3,8 +3,8 @@ var debug = require('debug')('rets.js:rets.test.js');
 var fs = require('fs');
 var nock = require('nock');
 
-var RETS = require('../');
-var RETSError = require('../lib/error');
+var RETS = require('../../');
+var RETSError = require('../../lib/error');
 
 var NockURLS = {
     host: 'http://rets.server.com:9160',
@@ -211,7 +211,7 @@ describe('RETS Instance Methods',function(){
 
 });
 
-if(fs.existsSync('./test/servers.json')){
+if(fs.existsSync('./test/servers/servers.json')){
     var servers = require('./servers.json');
     describe('RETS calls work against my servers', function(){
 
