@@ -5,22 +5,22 @@ var fs = require('fs');
 var RETS = require('../../');
 var RETSError = require('../../lib/error');
 
-if(fs.existsSync('./test/servers/servers.json')){
+if(fs.existsSync('./test/servers/servers.json')) {
     var servers = require('./servers.json');
-    describe('RETS calls work against my servers', function(){
+    servers.forEach(function(item){
 
-        servers.forEach(function(item){
+        var rets = new RETS({
+            url: item.url,
+            ua: {
+                name: item.userAgent,
+                pass: item.userAgentPassword
+            },
+            version: item.version
+        });
 
-            var rets = new RETS({
-                url: item.url,
-                ua: {
-                    name: item.userAgent,
-                    pass: item.userAgentPassword
-                },
-                version: item.version
-            });
+        describe('RETS calls work against: ' + rets.session.url.host, function(){
 
-            it('Can login to my RETS server: ' + rets.session.url.host, function(done){
+            it('Can login', function(done){
 
                 this.timeout(15000);
                 var _timeout = setTimeout(function(){
@@ -44,51 +44,136 @@ if(fs.existsSync('./test/servers/servers.json')){
                 assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
             });
 
-            it('Can get metadata from my server',function(done){
-                var metadata = '';
+            /**
+             * These are dependent on knowing something about the server
+             */
+            if (item.metadata) {
 
-                this.timeout(30000);
-                var timeout = setTimeout(function(){
-                    rets.removeAllListeners('metadata');
-                    assert(false, 'No event fired');
-                    done();
-                },30000);
+                it('Can get metadata resources from my server',function(done){
+                    var metadata = '';
 
-                rets.addListener('metadata',function(err){
-                    rets.removeAllListeners('metadata');
-                    clearTimeout(timeout);
-                    assert(err === null && metadata !== '');
-                    done();
+                    this.timeout(30000);
+                    var timeout = setTimeout(function(){
+                        rets.removeAllListeners('metadata');
+                        assert(false, 'No event fired');
+                        done();
+                    },30000);
+
+                    rets.addListener('metadata',function(err){
+                        rets.removeAllListeners('metadata');
+                        clearTimeout(timeout);
+                        assert(err === null && metadata !== '');
+                        // console.log(metadata);
+                        done();
+                    });
+
+                    rets.getMetadata({ Type:'METADATA-RESOURCE', ID: item.metadata.resources.ID })
+                    .on('data',function(line){
+                        metadata += line.toString();
+                    });
                 });
 
-                rets.getMetadata({ Type:'METADATA-RESOURCE', ID: 'Property'})
-                .on('data',function(line){
-                    metadata += line.toString();
+                it('Can get metadata classes from my server',function(done){
+                    var metadata = '';
+
+                    this.timeout(30000);
+                    var timeout = setTimeout(function(){
+                        rets.removeAllListeners('metadata');
+                        assert(false, 'No event fired');
+                        done();
+                    },30000);
+
+                    rets.addListener('metadata',function(err){
+                        rets.removeAllListeners('metadata');
+                        clearTimeout(timeout);
+                        assert(err === null && metadata !== '');
+                        // console.log(metadata);
+                        done();
+                    });
+
+                    rets.getMetadata({ Type:'METADATA-CLASS', ID: item.metadata.classes.ID })
+                    .on('data',function(line){
+                        metadata += line.toString();
+                    });
                 });
-            });
 
-            it('Can search for property listings',function(done){
-                var search = '';
+                it('Can get metadata fields from my server',function(done){
+                    var metadata = '';
 
-                this.timeout(30000);
-                var timeout = setTimeout(function(){
-                    rets.removeAllListeners('search');
-                    assert(false, 'No event fired');
-                    done();
-                },30000);
+                    this.timeout(30000);
+                    var timeout = setTimeout(function(){
+                        rets.removeAllListeners('metadata');
+                        assert(false, 'No event fired');
+                        done();
+                    },30000);
 
-                rets.addListener('search',function(err){
-                    rets.removeAllListeners('search');
-                    clearTimeout(timeout);
-                    assert(err === null && search !== '');
-                    done();
+                    rets.addListener('metadata',function(err){
+                        rets.removeAllListeners('metadata');
+                        clearTimeout(timeout);
+                        assert(err === null && metadata !== '');
+                        // console.log(metadata);
+                        done();
+                    });
+
+                    rets.getMetadata({ Type:'METADATA-TABLE', ID: item.metadata.fields.ID })
+                    .on('data',function(line){
+                        metadata += line.toString();
+                    });
                 });
 
-                rets.search(item.search)
-                .on('data',function(line){
-                    search += line.toString();
+                it('Can get metadata status values from my server',function(done){
+                    var metadata = '';
+
+                    this.timeout(30000);
+                    var timeout = setTimeout(function(){
+                        rets.removeAllListeners('metadata');
+                        assert(false, 'No event fired');
+                        done();
+                    },30000);
+
+                    rets.addListener('metadata',function(err){
+                        rets.removeAllListeners('metadata');
+                        clearTimeout(timeout);
+                        assert(err === null && metadata !== '');
+                        // console.log(metadata);
+                        done();
+                    });
+
+                    rets.getMetadata({ Type:'METADATA-LOOKUP_TYPE', ID: item.metadata.status.ID })
+                    .on('data',function(line){
+                        metadata += line.toString();
+                    });
                 });
-            });
+
+            }
+
+            /**
+             * Also depends on knowing something about the server
+             */
+            if (item.search) {
+                it('Can search for property listings',function(done){
+                    var search = '';
+
+                    this.timeout(30000);
+                    var timeout = setTimeout(function(){
+                        rets.removeAllListeners('search');
+                        assert(false, 'No event fired');
+                        done();
+                    },30000);
+
+                    rets.addListener('search',function(err){
+                        rets.removeAllListeners('search');
+                        clearTimeout(timeout);
+                        assert(err === null && search !== '');
+                        done();
+                    });
+
+                    rets.search(item.search)
+                    .on('data',function(line){
+                        search += line.toString();
+                    });
+                });
+            }
 
             it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
 
@@ -108,7 +193,6 @@ if(fs.existsSync('./test/servers/servers.json')){
 
                 rets.logout();
             });
-
 
         });
 
