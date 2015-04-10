@@ -11,6 +11,20 @@
             "QueryType": "DMQL2",
             "Limit": 3,
             "StandardNames": 1
+	    },
+	    "metadata": {
+	    	"resources": {
+	    		"ID": "0"
+    		},
+	    	"classes": {
+	    		"ID": "Property"
+    		},
+    		"fields": {
+    			"ID": "Property:Residential"
+    		},
+    		"status": {
+    			"ID": "Property:STATUS"
+    		}
 	    }
 	},
 	{
@@ -25,6 +39,20 @@
             "QueryType": "DMQL2",
             "Limit": 3,
             "StandardNames": 1
+	    },
+	    "metadata": {
+	    	"resources": {
+	    		"ID": "0"
+    		},
+	    	"classes": {
+	    		"ID": "Property"
+    		},
+    		"fields": {
+    			"ID": "Property:Residential"
+    		},
+    		"status": {
+    			"ID": "Property:STATUS"
+    		}
 	    }
 	}
 ]
