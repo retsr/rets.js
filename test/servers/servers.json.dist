@@ -3,6 +3,7 @@
 		"url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
 		"userAgent": "RETS-Connector1/2",
 	    "userAgentPassword": "",
+	    "version": "RETS/1.7.2",
 	    "search": {
             "SearchType": "Property",
             "Class": "ResidentialProperty",
@@ -16,6 +17,7 @@
 		"url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
 		"userAgent": "RETS-Connector1/2",
 	    "userAgentPassword": "",
+	    "version": "RETS/1.7.2",
 	    "search": {
             "SearchType": "Property",
             "Class": "ResidentialProperty",

@@ -13,8 +13,10 @@ if(fs.existsSync('./test/servers/servers.json')){
 
             var rets = new RETS({
                 url: item.url,
-                userAgent: item.userAgent,
-                userAgentPassword: item.userAgentPassword,
+                ua: {
+                    name: item.userAgent,
+                    pass: item.userAgentPassword
+                },
                 version: item.version
             });
 
