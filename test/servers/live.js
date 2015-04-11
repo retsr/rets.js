@@ -1,9 +1,15 @@
 var assert = require('assert');
 var debug = require('debug')('rets.js:test:servers:live');
 var fs = require('fs');
+var nock = require('nock');
+var nockBack = nock.back;
 
 var RETS = require('../../');
 var RETSError = require('../../lib/error');
+
+nock.enableNetConnect();
+nockBack.fixtures = './test/fixtures';
+nockBack.setMode('record');
 
 if(fs.existsSync('./test/servers/servers.json')) {
     var servers = require('./servers.json');
@@ -23,21 +29,25 @@ if(fs.existsSync('./test/servers/servers.json')) {
             it('Can login', function(done){
 
                 this.timeout(15000);
-                var _timeout = setTimeout(function(){
-                    rets.removeAllListeners('login');
-                    assert(false, 'No event fired');
-                    done();
-                },15000);
+                nockBack(rets.session.url.host + '-login.json', function (nockDone) {
+                    var _timeout = setTimeout(function(){
+                        rets.removeAllListeners('login');
+                        assert(false, 'No event fired');
+                        nockDone();
+                        done();
+                    },15000);
 
-                rets.addListener('login',function(err){
-                    rets.removeAllListeners('login');
-                    clearTimeout(_timeout);
-                    // if (err) { console.trace(err); }
-                    assert(err === null);
-                    done();
+                    rets.addListener('login',function(err){
+                        rets.removeAllListeners('login');
+                        clearTimeout(_timeout);
+                        // if (err) { console.trace(err); }
+                        assert(err === null);
+                        nockDone();
+                        done();
+                    });
+
+                    rets.login();
                 });
-
-                rets.login();
             });
 
             it('Can read capabilities from the server', function(){
@@ -53,23 +63,27 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     var metadata = '';
 
                     this.timeout(30000);
-                    var timeout = setTimeout(function(){
-                        rets.removeAllListeners('metadata');
-                        assert(false, 'No event fired');
-                        done();
-                    },30000);
+                    nockBack(rets.session.url.host + '-metadata-resource.json', function (nockDone) {
+                        var timeout = setTimeout(function(){
+                            rets.removeAllListeners('metadata');
+                            assert(false, 'No event fired');
+                            nockDone();
+                            done();
+                        },30000);
 
-                    rets.addListener('metadata',function(err){
-                        rets.removeAllListeners('metadata');
-                        clearTimeout(timeout);
-                        assert(err === null && metadata !== '');
-                        // console.log(metadata);
-                        done();
-                    });
+                        rets.addListener('metadata',function(err){
+                            rets.removeAllListeners('metadata');
+                            clearTimeout(timeout);
+                            assert(err === null && metadata !== '');
+                            // console.log(metadata);
+                            nockDone();
+                            done();
+                        });
 
-                    rets.getMetadata({ Type:'METADATA-RESOURCE', ID: item.metadata.resources.ID })
-                    .on('data',function(line){
-                        metadata += line.toString();
+                        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: item.metadata.resources.ID })
+                        .on('data',function(line){
+                            metadata += line.toString();
+                        });
                     });
                 });
 
@@ -77,23 +91,27 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     var metadata = '';
 
                     this.timeout(30000);
-                    var timeout = setTimeout(function(){
-                        rets.removeAllListeners('metadata');
-                        assert(false, 'No event fired');
-                        done();
-                    },30000);
+                    nockBack(rets.session.url.host + '-metadata-class.json', function (nockDone) {
+                        var timeout = setTimeout(function(){
+                            rets.removeAllListeners('metadata');
+                            assert(false, 'No event fired');
+                            nockDone();
+                            done();
+                        },30000);
 
-                    rets.addListener('metadata',function(err){
-                        rets.removeAllListeners('metadata');
-                        clearTimeout(timeout);
-                        assert(err === null && metadata !== '');
-                        // console.log(metadata);
-                        done();
-                    });
+                        rets.addListener('metadata',function(err){
+                            rets.removeAllListeners('metadata');
+                            clearTimeout(timeout);
+                            assert(err === null && metadata !== '');
+                            // console.log(metadata);
+                            nockDone();
+                            done();
+                        });
 
-                    rets.getMetadata({ Type:'METADATA-CLASS', ID: item.metadata.classes.ID })
-                    .on('data',function(line){
-                        metadata += line.toString();
+                        rets.getMetadata({ Type:'METADATA-CLASS', ID: item.metadata.classes.ID })
+                        .on('data',function(line){
+                            metadata += line.toString();
+                        });
                     });
                 });
 
@@ -101,23 +119,27 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     var metadata = '';
 
                     this.timeout(30000);
-                    var timeout = setTimeout(function(){
-                        rets.removeAllListeners('metadata');
-                        assert(false, 'No event fired');
-                        done();
-                    },30000);
+                    nockBack(rets.session.url.host + '-metadata-table.json', function (nockDone) {
+                        var timeout = setTimeout(function(){
+                            rets.removeAllListeners('metadata');
+                            assert(false, 'No event fired');
+                            nockDone();
+                            done();
+                        },30000);
 
-                    rets.addListener('metadata',function(err){
-                        rets.removeAllListeners('metadata');
-                        clearTimeout(timeout);
-                        assert(err === null && metadata !== '');
-                        // console.log(metadata);
-                        done();
-                    });
+                        rets.addListener('metadata',function(err){
+                            rets.removeAllListeners('metadata');
+                            clearTimeout(timeout);
+                            assert(err === null && metadata !== '');
+                            // console.log(metadata);
+                            nockDone();
+                            done();
+                        });
 
-                    rets.getMetadata({ Type:'METADATA-TABLE', ID: item.metadata.fields.ID })
-                    .on('data',function(line){
-                        metadata += line.toString();
+                        rets.getMetadata({ Type:'METADATA-TABLE', ID: item.metadata.fields.ID })
+                        .on('data',function(line){
+                            metadata += line.toString();
+                        });
                     });
                 });
 
@@ -125,23 +147,27 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     var metadata = '';
 
                     this.timeout(30000);
-                    var timeout = setTimeout(function(){
-                        rets.removeAllListeners('metadata');
-                        assert(false, 'No event fired');
-                        done();
-                    },30000);
+                    nockBack(rets.session.url.host + '-metadata-lookup.json', function (nockDone) {
+                        var timeout = setTimeout(function(){
+                            rets.removeAllListeners('metadata');
+                            assert(false, 'No event fired');
+                            nockDone();
+                            done();
+                        },30000);
 
-                    rets.addListener('metadata',function(err){
-                        rets.removeAllListeners('metadata');
-                        clearTimeout(timeout);
-                        assert(err === null && metadata !== '');
-                        // console.log(metadata);
-                        done();
-                    });
+                        rets.addListener('metadata',function(err){
+                            rets.removeAllListeners('metadata');
+                            clearTimeout(timeout);
+                            assert(err === null && metadata !== '');
+                            // console.log(metadata);
+                            nockDone();
+                            done();
+                        });
 
-                    rets.getMetadata({ Type:'METADATA-LOOKUP_TYPE', ID: item.metadata.status.ID })
-                    .on('data',function(line){
-                        metadata += line.toString();
+                        rets.getMetadata({ Type:'METADATA-LOOKUP_TYPE', ID: item.metadata.status.ID })
+                        .on('data',function(line){
+                            metadata += line.toString();
+                        });
                     });
                 });
 
@@ -155,22 +181,26 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     var search = '';
 
                     this.timeout(30000);
-                    var timeout = setTimeout(function(){
-                        rets.removeAllListeners('search');
-                        assert(false, 'No event fired');
-                        done();
-                    },30000);
+                    nockBack(rets.session.url.host + '-search.json', function (nockDone) {
+                        var timeout = setTimeout(function(){
+                            rets.removeAllListeners('search');
+                            assert(false, 'No event fired');
+                            nockDone();
+                            done();
+                        },30000);
 
-                    rets.addListener('search',function(err){
-                        rets.removeAllListeners('search');
-                        clearTimeout(timeout);
-                        assert(err === null && search !== '');
-                        done();
-                    });
+                        rets.addListener('search',function(err){
+                            rets.removeAllListeners('search');
+                            clearTimeout(timeout);
+                            assert(err === null && search !== '');
+                            nockDone();
+                            done();
+                        });
 
-                    rets.search(item.search)
-                    .on('data',function(line){
-                        search += line.toString();
+                        rets.search(item.search)
+                        .on('data',function(line){
+                            search += line.toString();
+                        });
                     });
                 });
             }
@@ -178,26 +208,27 @@ if(fs.existsSync('./test/servers/servers.json')) {
             it('Can logout of my RETS server: ' + rets.session.url.host, function(done){
 
                 this.timeout(15000);
-                var _timeout = setTimeout(function(){
-                    rets.removeAllListeners('logout');
-                    assert(false, 'No event fired');
-                    done();
-                },15000);
+                nockBack(rets.session.url.host + '-logout.json', function (nockDone) {
+                    var _timeout = setTimeout(function(){
+                        rets.removeAllListeners('logout');
+                        assert(false, 'No event fired');
+                        nockDone();
+                        done();
+                    },15000);
 
-                rets.addListener('logout',function(err){
-                    rets.removeAllListeners('logout');
-                    clearTimeout(_timeout);
-                    assert(err === null);
-                    done();
+                    rets.addListener('logout',function(err){
+                        rets.removeAllListeners('logout');
+                        clearTimeout(_timeout);
+                        assert(err === null);
+                        nockDone();
+                        done();
+                    });
+
+                    rets.logout();
                 });
-
-                rets.logout();
             });
 
         });
 
     });
-
 }
-
-// process.stdout.write('\033c');

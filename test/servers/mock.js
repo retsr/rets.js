@@ -5,6 +5,8 @@ var nock = require('nock');
 var RETS = require('../../');
 var RETSError = require('../../lib/error');
 
+// nock.restore();
+
 var NockURLS = {
     host: 'http://rets.server.com:9160',
     login: '/Login.asmx/Login',
@@ -93,7 +95,7 @@ nock(NockURLS.host).persist()
     .get(NockURLS.logout)
     .reply(200,RETSLogoutSuccessResponse);
 
-nock.enableNetConnect();
+// nock.enableNetConnect();
 
 var rets = new RETS({
     url: RETSLogin
