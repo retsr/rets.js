@@ -52,6 +52,38 @@ module.exports = describe('Session', function(){
         assert.deepEqual(expectedDefaults, instance.defaults);
     });
 
+    it('Requires a url to instantiate',function(){
+        try {
+            new Session({});
+        } catch(e) {
+            assert.equal(e.message, 'options.url is required.');
+        }
+    });
+
+    it('Requires a url to be a string or an object',function(){
+        try {
+            new Session({ url: true });
+        } catch(e) {
+            assert.equal(e.message, 'options.url is not a string or an object.');
+        }
+    });
+
+    it('Requires string urls to be valid',function(){
+        try {
+            new Session({ url: 'htp:/rets.org' });
+        } catch(e) {
+            assert.equal(e.message, 'invalid options.url.host.');
+        }
+    });
+
+    it('Requires string urls to contain auth credentials',function(){
+        try {
+            new Session({ url: 'http://localhost:9160/mock/Login' });
+        } catch(e) {
+            assert.equal(e.message, 'invalid options.url.auth.');
+        }
+    });
+
     it('instance.url is an object.', function(){
         assert.equal(typeof instance.url, 'object');
     });
