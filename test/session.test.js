@@ -53,6 +53,9 @@ module.exports = describe('Session', function(){
     });
 
     it('Requires a url to instantiate',function(){
+        // assert.throws(function(){
+        //     new Session();
+        // }, Error);
         try {
             new Session({});
         } catch(e) {

@@ -16,7 +16,7 @@ module.exports = describe('RETS', function(){
     });
 
     beforeEach('Create new instance before each test.', function(){
-        instance = new RETS(config);
+        instance = RETS(config);
     });
 
     afterEach('Clear instance after each test.', function(){
@@ -47,9 +47,21 @@ module.exports = describe('RETS', function(){
         }, Error);
     });
 
+    it('Throws an error if options.url is not a string or object.', function(){
+        assert.throws(function(){
+            new RETS({url:true});
+        }, Error);
+    });
+
     it('Throws an error if options.url is not a valid url.', function(){
         assert.throws(function(){
             new RETS({url:"some invalid url"});
+        }, Error);
+    });
+
+    it('Throws an error if options.url does not have credentials.', function(){
+        assert.throws(function(){
+            new RETS({url:"http://localhost:9160/mock/Login"});
         }, Error);
     });
 
