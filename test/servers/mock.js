@@ -1,21 +1,12 @@
 var assert = require('assert');
 var debug = require('debug')('rets.js:test:servers:mock');
 var nock = require('nock');
+var fs = require('fs');
 
 var RETS = require('../../');
 var RETSError = require('../../lib/error');
 
-// nock.restore();
-
-var NockURLS = {
-    host: 'http://rets.server.com:9160',
-    login: '/Login.asmx/Login',
-    getMetadata: '/njs/GetMetadata',
-    search: '/njs/Search',
-    logout: '/njs/Logout'
-};
-
-var RETSLogin = 'http://user:pass@rets.server.com:9160/Login.asmx/Login';
+var RETSLogin = 'https://user:pass@rets.server.com:9160/contact/rets/login';
 
 var RETSLoginSuccessResponse = [
     '<RETS ReplyCode="0" ReplyText="Operation Successful" >',
@@ -85,17 +76,32 @@ var RETSMetadataSuccessResponse = [
     '</RETS>'
 ].join('\n');
 
-nock(NockURLS.host).persist()
-    .get(NockURLS.login)
-    .reply(200,RETSLoginSuccessResponse)
-    .get(NockURLS.getMetadata + '?Type=METADATA-RESOURCE&ID=Property&Format=STANDARD-XML')
-    .reply(200,RETSMetadataSuccessResponse)
-    .get(NockURLS.search + '?SearchType=Property&Class=ResidentialProperty&Query=%28Status%3D%7CA%29&QueryType=DMQL2&Count=1&Offset=1&Format=COMPACT-DECODED&Limit=3&StandardNames=1')
-    .reply(200,RETSMetadataSuccessResponse)
-    .get(NockURLS.logout)
-    .reply(200,RETSLogoutSuccessResponse);
+// nock(NockURLS.host).persist()
+    // .get(NockURLS.login)
+    // .reply(200,RETSLoginSuccessResponse)
+    // .get(NockURLS.getMetadata + '?Type=METADATA-RESOURCE&ID=Property&Format=STANDARD-XML')
+    // .reply(200,RETSMetadataSuccessResponse)
+    // .get(NockURLS.search + '?SearchType=Property&Class=ResidentialProperty&Query=%28Status%3D%7CA%29&QueryType=DMQL2&Count=1&Offset=1&Format=COMPACT-DECODED&Limit=3&StandardNames=1')
+    // .reply(200,RETSMetadataSuccessResponse)
+    // .get(NockURLS.logout)
+    // .reply(200,RETSLogoutSuccessResponse);
 
 // nock.enableNetConnect();
+
+var fixtures = './test/mock/fixtures';
+var nocks = [];
+
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-login.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-logout.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-metadata-class.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-metadata-lookup.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-metadata-resource.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-metadata-table.json')));
+nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/rets.server.com:9160-search.json')));
+
+nocks.forEach(function(n){
+    nock(n.scope).get(n.path).reply(n.status, n.response, n.headers);
+});
 
 var rets = new RETS({
     url: RETSLogin
@@ -146,7 +152,7 @@ describe('RETS Instance Methods',function(){
             done();
         });
 
-        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: 'Property'});
+        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: '0'});
     });
 
     it('Can search for property listings',function(done){
@@ -166,8 +172,8 @@ describe('RETS Instance Methods',function(){
 
         rets.search({
             SearchType: 'Property',
-            Class: 'ResidentialProperty',
-            Query: '(Status=|A)',
+            Class: 'Residential',
+            Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1

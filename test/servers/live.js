@@ -8,8 +8,8 @@ var RETS = require('../../');
 var RETSError = require('../../lib/error');
 
 nock.enableNetConnect();
-nockBack.fixtures = './test/fixtures';
-nockBack.setMode('record');
+nockBack.fixtures = './test/servers/fixtures';
+nockBack.setMode('lockdown');
 
 if(fs.existsSync('./test/servers/servers.json')) {
     var servers = require('./servers.json');

@@ -1,0 +1,23 @@
+[
+    {
+        "scope": "https://rets.server.com:9160",
+        "method": "GET",
+        "path": "/contact/rets/getMetadata?Type=METADATA-LOOKUP_TYPE&ID=Property%3ASTATUS&Format=STANDARD-XML",
+        "body": "",
+        "status": 200,
+        "response": "<RETS ReplyCode=\"0\" ReplyText=\"Operation Successful\">\r\n<METADATA>\r\n\t<METADATA-LOOKUP_TYPE Lookup=\"STATUS\" Resource=\"Property\" Date=\"2014-12-15T09:29:58\" Version=\"1.00.00001\">\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>A</MetadataEntryID>\r\n\t\t\t<LongValue>Active</LongValue>\r\n\t\t\t<ShortValue>A</ShortValue>\r\n\t\t\t<Value>A</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>B</MetadataEntryID>\r\n\t\t\t<LongValue>Backup Offer</LongValue>\r\n\t\t\t<ShortValue>B</ShortValue>\r\n\t\t\t<Value>B</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>H</MetadataEntryID>\r\n\t\t\t<LongValue>Hold Do Not Show</LongValue>\r\n\t\t\t<ShortValue>H</ShortValue>\r\n\t\t\t<Value>H</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>K</MetadataEntryID>\r\n\t\t\t<LongValue>Canceled</LongValue>\r\n\t\t\t<ShortValue>K</ShortValue>\r\n\t\t\t<Value>K</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>L</MetadataEntryID>\r\n\t\t\t<LongValue>Leased</LongValue>\r\n\t\t\t<ShortValue>L</ShortValue>\r\n\t\t\t<Value>L</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>P</MetadataEntryID>\r\n\t\t\t<LongValue>Pending Sale</LongValue>\r\n\t\t\t<ShortValue>P</ShortValue>\r\n\t\t\t<Value>P</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>S</MetadataEntryID>\r\n\t\t\t<LongValue>Closed Sale</LongValue>\r\n\t\t\t<ShortValue>S</ShortValue>\r\n\t\t\t<Value>S</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>W</MetadataEntryID>\r\n\t\t\t<LongValue>Withdrawn</LongValue>\r\n\t\t\t<ShortValue>W</ShortValue>\r\n\t\t\t<Value>W</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>X</MetadataEntryID>\r\n\t\t\t<LongValue>Expired</LongValue>\r\n\t\t\t<ShortValue>X</ShortValue>\r\n\t\t\t<Value>X</Value>\r\n\t\t</LookupType>\r\n\t\t<LookupType>\r\n\t\t\t<MetadataEntryID>Z</MetadataEntryID>\r\n\t\t\t<LongValue>Zap</LongValue>\r\n\t\t\t<ShortValue>Z</ShortValue>\r\n\t\t\t<Value>Z</Value>\r\n\t\t</LookupType>\r\n\t</METADATA-LOOKUP_TYPE>\r\n</METADATA>\r\n</RETS>\r\n",
+        "headers": {
+            "server": "Apache-Coyote/1.1",
+            "set-cookie": [
+                "JSESSIONID=BB1E967E89453EF2BF18099C2F241B34; Path=/contact"
+            ],
+            "mime-version": "1.0",
+            "cache-control": "private",
+            "rets-version": "RETS/1.7.2",
+            "content-id": "METADATA-LOOKUP_TYPE",
+            "content-type": "text/xml",
+            "transfer-encoding": "chunked",
+            "date": "Mon, 13 Apr 2015 21:24:33 GMT"
+        }
+    }
+]

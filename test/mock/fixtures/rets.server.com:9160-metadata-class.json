@@ -1,0 +1,23 @@
+[
+    {
+        "scope": "https://rets.server.com:9160",
+        "method": "GET",
+        "path": "/contact/rets/getMetadata?Type=METADATA-CLASS&ID=Property&Format=STANDARD-XML",
+        "body": "",
+        "status": 200,
+        "response": "<RETS ReplyCode=\"0\" ReplyText=\"Operation Successful\">\r\n<METADATA>\r\n\t<METADATA-CLASS Resource=\"Property\" Date=\"2014-12-15T09:29:58\" Version=\"1.00.00006\">\r\n\t\t<Class>\r\n\t\t\t<ClassName>Residential</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>Residential</VisibleName>\r\n\t\t\t<Description>Residential</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>Commercial</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>Commercial</VisibleName>\r\n\t\t\t<Description>Commercial</Description>\r\n\t\t\t<TableVersion>1.00.00006</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>Land</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>Land</VisibleName>\r\n\t\t\t<Description>Land</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>Mobile</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>Mobile</VisibleName>\r\n\t\t\t<Description>Mobile</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>CrossProperty</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>CrossProperty</VisibleName>\r\n\t\t\t<Description>CrossProperty</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>ResidentialIncome</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>ResidentialIncome</VisibleName>\r\n\t\t\t<Description>ResidentialIncome</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t\t<Class>\r\n\t\t\t<ClassName>ResidentialLease</ClassName>\r\n\t\t\t<StandardName/>\r\n\t\t\t<VisibleName>ResidentialLease</VisibleName>\r\n\t\t\t<Description>ResidentialLease</Description>\r\n\t\t\t<TableVersion>1.00.00004</TableVersion>\r\n\t\t\t<TableDate>2014-12-15T09:29:58</TableDate>\r\n\t\t\t<UpdateVersion>1.00.00000</UpdateVersion>\r\n\t\t\t<UpdateDate>2014-06-20T11:32:55</UpdateDate>\r\n\t\t\t<ClassTimeStamp/>\r\n\t\t\t<DeletedFlagField/>\r\n\t\t\t<DeletedFlagValue/>\r\n\t\t\t<HasKeyIndex/>\r\n\t\t</Class>\r\n\t</METADATA-CLASS>\r\n</METADATA>\r\n</RETS>\r\n",
+        "headers": {
+            "server": "Apache-Coyote/1.1",
+            "set-cookie": [
+                "JSESSIONID=BB1E967E89453EF2BF18099C2F241B34; Path=/contact"
+            ],
+            "mime-version": "1.0",
+            "cache-control": "private",
+            "rets-version": "RETS/1.7.2",
+            "content-id": "METADATA-CLASS",
+            "content-type": "text/xml",
+            "transfer-encoding": "chunked",
+            "date": "Mon, 13 Apr 2015 21:24:33 GMT"
+        }
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "scope": "https://rets.server.com:9160",
+        "method": "GET",
+        "path": "/contact/rets/logout",
+        "body": "",
+        "status": 200,
+        "response": "<RETS ReplyCode=\"0\" ReplyText=\"Operation Successful\">\r\n<RETS-RESPONSE>\r\nConnectTime=1\r\nSignOffMessage=Logged out.\r\n</RETS-RESPONSE>\r\n</RETS>\r\n",
+        "headers": {
+            "server": "Apache-Coyote/1.1",
+            "set-cookie": [
+                "JSESSIONID=BB1E967E89453EF2BF18099C2F241B34; Path=/contact"
+            ],
+            "mime-version": "1.0",
+            "cache-control": "private",
+            "rets-version": "RETS/1.7.2",
+            "content-type": "text/xml",
+            "content-length": "142",
+            "date": "Mon, 13 Apr 2015 21:24:34 GMT"
+        }
+    }
+]
