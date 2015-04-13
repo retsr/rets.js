@@ -50,7 +50,6 @@ if(fs.existsSync('./test/servers/servers.json')) {
             if (item.metadata) {
 
                 it('Can get metadata resources from my server',function(done){
-                    var metadata = '';
 
                     this.timeout(30000);
                     var timeout = setTimeout(function(){
@@ -59,18 +58,15 @@ if(fs.existsSync('./test/servers/servers.json')) {
                         done();
                     },30000);
 
-                    rets.addListener('metadata',function(err){
+                    rets.addListener('metadata',function(err, metadata){
                         rets.removeAllListeners('metadata');
                         clearTimeout(timeout);
-                        assert(err === null && metadata !== '');
                         // console.log(metadata);
+                        assert(err === null && metadata !== '');
                         done();
                     });
 
-                    rets.getMetadata({ Type:'METADATA-RESOURCE', ID: item.metadata.resources.ID })
-                    .on('data',function(line){
-                        metadata += line.toString();
-                    });
+                    rets.getMetadata({ Type:'METADATA-RESOURCE', ID: item.metadata.resources.ID });
                 });
 
                 it('Can get metadata classes from my server',function(done){
