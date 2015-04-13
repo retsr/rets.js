@@ -61,7 +61,6 @@ if(fs.existsSync('./test/servers/servers.json')) {
                     rets.addListener('metadata',function(err, metadata){
                         rets.removeAllListeners('metadata');
                         clearTimeout(timeout);
-                        // console.log(metadata);
                         assert(err === null && metadata !== '');
                         done();
                     });
@@ -164,8 +163,12 @@ if(fs.existsSync('./test/servers/servers.json')) {
                         done();
                     });
 
+                    item.search.objectMode = true;
+                    item.search.format = 'arrays';
+
                     rets.search(item.search)
                     .on('data',function(line){
+                        // console.log('record',line.toString());
                         search += line.toString();
                     });
                 });
