@@ -159,12 +159,8 @@ describe('RETS Instance Methods',function(){
             rets.removeAllListeners('search');
             clearTimeout(timeout);
 
-            var results = getTestOutput('listings.csv');
-            xml(results, function(parserr, res){
-                assert(parserr === null);
-                done();
-            });
-
+            assert(err === null);
+            done();
         });
 
         rets.search({
@@ -175,8 +171,8 @@ describe('RETS Instance Methods',function(){
             Limit: 3,
             StandardNames: 1,
             objectMode: false,
-            format: 'arrays',
-        }).raw.pipe(testStream('listings.csv'));
+            format: 'csv',
+        }).pipe(testStream('listings.csv'));
     });
 
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
