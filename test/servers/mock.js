@@ -70,39 +70,52 @@ describe('Mocked RETS Server calls',function(){
         assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
     });
 
-    it('Can get metadata from the server',function(done){
+    it('Can get metadata as a native object',function(done){
 
         loadFixture('metadata-resource');
-        var timeout = setTimeout(function(){
-            rets.removeAllListeners('metadata');
-            assert(false, 'No event fired');
-            done();
-        },1000);
-
         rets.addListener('metadata',function(err, result){
             rets.removeAllListeners('metadata');
-            clearTimeout(timeout);
             assert(err === null);
-            done();
+            assert(typeof result === 'object');
         });
 
-        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: '0'});
+        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: '0'})
+        .on('finish', function(){
+            done();
+        });
+    });
+
+    it('Can stream metadata to an xml file',function(done){
+
+        loadFixture('metadata-resource');
+        rets.addListener('metadata',function(err, result){
+            rets.removeAllListeners('metadata');
+            assert(err === null);
+            assert(typeof result === 'object');
+
+            var results = getTestOutput('metadata.xml');
+            xml(results, function(parserr){
+                assert(parserr === null);
+                done();
+            });
+
+        });
+
+        rets.getMetadata({ Type:'METADATA-RESOURCE', ID: '0'})
+        .pipe(testStream('metadata.xml'))
+        .on('finish', function(){
+            // done(); we will wait until we have validated the final result
+        });
     });
 
     it('Can search for property listings',function(done){
 
         loadFixture('search');
-        var timeout = setTimeout(function(){
+        rets.addListener('search',function(err, res){
             rets.removeAllListeners('search');
-            assert(false, 'No event fired');
-            done();
-        },1000);
-
-        rets.addListener('search',function(err){
-            rets.removeAllListeners('search');
-            clearTimeout(timeout);
             assert(err === null);
-            done();
+            assert(res.count !== null);
+            assert(res.records !== null);
         });
 
         rets.search({
@@ -112,24 +125,23 @@ describe('Mocked RETS Server calls',function(){
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1
+        })
+        .on('finish', function(){
+            done();
         });
     });
 
     it('Can send raw stream to an xml file',function(done){
 
         loadFixture('search');
-        var timeout = setTimeout(function(){
+        rets.addListener('search',function(err, res){
             rets.removeAllListeners('search');
-            assert(false, 'No event fired');
-            done();
-        },1000);
-
-        rets.addListener('search',function(err){
-            rets.removeAllListeners('search');
-            clearTimeout(timeout);
+            assert(err === null);
+            assert(res.count !== null);
+            assert(res.records !== null);
 
             var results = getTestOutput('listings-raw.xml');
-            xml(results, function(parserr, res){
+            xml(results, function(parserr){
                 assert(parserr === null);
                 done();
             });
@@ -143,24 +155,21 @@ describe('Mocked RETS Server calls',function(){
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1
-        }).raw.pipe(testStream('listings-raw.xml'));
+        })
+        .raw.pipe(testStream('listings-raw.xml'))
+        .on('finish', function(){
+            // done(); we will wait until we have validated the final result
+        });
     });
 
     it('Can send a csv stream to a csv file',function(done){
 
         loadFixture('search');
-        var timeout = setTimeout(function(){
+        rets.addListener('search',function(err, res){
             rets.removeAllListeners('search');
-            assert(false, 'No event fired');
-            done();
-        },1000);
-
-        rets.addListener('search',function(err){
-            rets.removeAllListeners('search');
-            clearTimeout(timeout);
-
             assert(err === null);
-            done();
+            assert(res.count !== null);
+            assert(res.records !== null);
         });
 
         rets.search({
@@ -172,13 +181,22 @@ describe('Mocked RETS Server calls',function(){
             StandardNames: 1,
             objectMode: false,
             format: 'csv',
-        }).pipe(testStream('listings.csv'));
+        })
+        .pipe(testStream('listings.csv'))
+        .on('finish', function(){
+            done();
+        });
     });
 
     it('Can get stream of objects',function(done){
 
         loadFixture('search');
-        rets.removeAllListeners('search');
+        rets.addListener('search',function(err, res){
+            rets.removeAllListeners('search');
+            assert(err === null);
+            assert(res.count !== null);
+            assert(res.records !== null);
+        });
         
         rets.search({
             SearchType: 'Property',
