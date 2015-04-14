@@ -175,6 +175,52 @@ describe('Mocked RETS Server calls',function(){
         }).pipe(testStream('listings.csv'));
     });
 
+    it('Can get stream of objects',function(done){
+
+        loadFixture('search');
+        rets.removeAllListeners('search');
+        
+        rets.search({
+            SearchType: 'Property',
+            Class: 'Residential',
+            Query: '(TimestampModified=2015-04-01+),(Status=|A)',
+            QueryType: 'DMQL2',
+            Limit: 3,
+            StandardNames: 1,
+            objectMode: true,
+            format: 'objects',
+        })
+        .on('data', function(record){
+            assert(typeof record === 'object');
+        })
+        .on('finish', function(){
+            done();
+        });
+    });
+
+    it('Can get stream of arrays',function(done){
+
+        loadFixture('search');
+        rets.removeAllListeners('search');
+        
+        rets.search({
+            SearchType: 'Property',
+            Class: 'Residential',
+            Query: '(TimestampModified=2015-04-01+),(Status=|A)',
+            QueryType: 'DMQL2',
+            Limit: 3,
+            StandardNames: 1,
+            objectMode: true,
+            format: 'arrays',
+        })
+        .on('data', function(record){
+            assert(record instanceof Array && record.length);
+        })
+        .on('finish', function(){
+            done();
+        });
+    });
+
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
 
         var timeout = setTimeout(function(){
