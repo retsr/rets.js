@@ -42,10 +42,10 @@
     "should": "^5.2.0"
   },
   "scripts": {
-    "clean": "rm -rf docs",
-    "test": "./node_modules/.bin/mocha test/index",
-    "test-servers": "./node_modules/.bin/mocha test/servers/live",
-    "test-watch": "DEBUG=rets.js:* ./node_modules/.bin/mocha --watch --recursive --reporter spec test/index",
+    "clean": "rm -rf test/tmp; rm -rf docs",
+    "test": "rm -rf test/tmp; ./node_modules/.bin/mocha test/index",
+    "test-servers": "rm -rf test/tmp; ./node_modules/.bin/mocha test/servers/live",
+    "test-watch": "DEBUG=rets.js:* rm -rf test/tmp; ./node_modules/.bin/mocha --watch --recursive --reporter spec test/index",
     "jsdoc": "jsdoc -X lib",
     "docs": "npm run clean && ./node_modules/.bin/jsdox --output docs lib",
     "lint": "find . -name '*.js' ! -path './node_modules/*' -print0 | xargs -0 ./node_modules/.bin/jshint"

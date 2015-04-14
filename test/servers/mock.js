@@ -2,6 +2,7 @@ var assert = require('assert');
 var debug = require('debug')('rets.js:test:servers:mock');
 var nock = require('nock');
 var fs = require('fs');
+var xml = require('xml2js').parseString;
 
 var RETS = require('../../');
 var RETSError = require('../../lib/error');
@@ -24,6 +25,14 @@ function loadFixture(key) {
     nocks.forEach(function(n){
         nock(n.scope).get(n.path).reply(n.status, n.response, n.headers);
     });
+}
+
+function testStream(file) {
+    return fs.createWriteStream(outputs + '/' + file);
+}
+
+function getTestOutput(file) {
+    return fs.readFileSync(outputs + '/' + file);
 }
 
 var rets = new RETS({
@@ -106,7 +115,7 @@ describe('RETS Instance Methods',function(){
         });
     });
 
-    it('Can stream listings to a file',function(done){
+    it('Can send raw stream to a file',function(done){
 
         loadFixture('search');
         var timeout = setTimeout(function(){
@@ -118,8 +127,13 @@ describe('RETS Instance Methods',function(){
         rets.addListener('search',function(err){
             rets.removeAllListeners('search');
             clearTimeout(timeout);
-            assert(err === null);
-            done();
+
+            var results = getTestOutput('listings-raw.xml');
+            xml(results, function(parserr, res){
+                assert(parserr === null);
+                done();
+            });
+
         });
 
         rets.search({
@@ -129,7 +143,7 @@ describe('RETS Instance Methods',function(){
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1
-        }).raw.pipe(fs.createWriteStream('./test/tmp/listings.xml'));
+        }).raw.pipe(testStream('listings-raw.xml'));
     });
 
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
