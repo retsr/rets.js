@@ -11,7 +11,13 @@ var RETSHost = 'rets.server.com:9160';
 var RETSLogin = 'https://user:pass@' + RETSHost + '/contact/rets/login';
 
 var fixtures = './test/mock/fixtures';
+var outputs = './test/tmp';
+
 var nocks = [];
+
+if (!fs.existsSync(outputs)) {
+    fs.mkdirSync(outputs);
+}
 
 function loadFixture(key) {
     var nocks = JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-' + key + '.json'));
@@ -100,7 +106,7 @@ describe('RETS Instance Methods',function(){
         });
     });
 
-    it('Can search for property listings',function(done){
+    it('Can stream listings to a file',function(done){
 
         loadFixture('search');
         var timeout = setTimeout(function(){
@@ -123,7 +129,7 @@ describe('RETS Instance Methods',function(){
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1
-        });
+        }).pipe(fs.createWriteStream('./test/tmp/listings.xml'));
     });
 
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
