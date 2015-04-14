@@ -39,7 +39,7 @@ var rets = new RETS({
     url: RETSLogin
 });
 
-describe('RETS Instance Methods',function(){
+describe('Mocked RETS Server calls',function(){
 
     it('Can login to a RETS server',function(done){
 
@@ -115,7 +115,7 @@ describe('RETS Instance Methods',function(){
         });
     });
 
-    it('Can send raw stream to a file',function(done){
+    it('Can send raw stream to an xml file',function(done){
 
         loadFixture('search');
         var timeout = setTimeout(function(){
@@ -146,7 +146,7 @@ describe('RETS Instance Methods',function(){
         }).raw.pipe(testStream('listings-raw.xml'));
     });
 
-    it('Can send a csv stream to a file',function(done){
+    it('Can send a csv stream to a csv file',function(done){
 
         loadFixture('search');
         var timeout = setTimeout(function(){
