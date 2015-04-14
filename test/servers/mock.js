@@ -13,17 +13,12 @@ var RETSLogin = 'https://user:pass@' + RETSHost + '/contact/rets/login';
 var fixtures = './test/mock/fixtures';
 var nocks = [];
 
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-login.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-logout.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-metadata-class.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-metadata-lookup.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-metadata-resource.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-metadata-table.json')));
-nocks = nocks.concat(JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-search.json')));
-
-nocks.forEach(function(n){
-    nock(n.scope).get(n.path).reply(n.status, n.response, n.headers);
-});
+function loadFixture(key) {
+    var nocks = JSON.parse(fs.readFileSync(fixtures + '/' + RETSHost + '-' + key + '.json'));
+    nocks.forEach(function(n){
+        nock(n.scope).get(n.path).reply(n.status, n.response, n.headers);
+    });
+}
 
 var rets = new RETS({
     url: RETSLogin
@@ -33,6 +28,7 @@ describe('RETS Instance Methods',function(){
 
     it('Can login to a RETS server',function(done){
 
+        loadFixture('login');
         var _timeout = setTimeout(function(){
             rets.removeAllListeners('login');
             assert(false, 'No event fired');
@@ -61,6 +57,7 @@ describe('RETS Instance Methods',function(){
 
     it('Can get metadata from the server',function(done){
 
+        loadFixture('metadata-resource');
         var timeout = setTimeout(function(){
             rets.removeAllListeners('metadata');
             assert(false, 'No event fired');
@@ -79,6 +76,33 @@ describe('RETS Instance Methods',function(){
 
     it('Can search for property listings',function(done){
 
+        loadFixture('search');
+        var timeout = setTimeout(function(){
+            rets.removeAllListeners('search');
+            assert(false, 'No event fired');
+            done();
+        },1000);
+
+        rets.addListener('search',function(err){
+            rets.removeAllListeners('search');
+            clearTimeout(timeout);
+            assert(err === null);
+            done();
+        });
+
+        rets.search({
+            SearchType: 'Property',
+            Class: 'Residential',
+            Query: '(TimestampModified=2015-04-01+),(Status=|A)',
+            QueryType: 'DMQL2',
+            Limit: 3,
+            StandardNames: 1
+        });
+    });
+
+    it('Can search for property listings',function(done){
+
+        loadFixture('search');
         var timeout = setTimeout(function(){
             rets.removeAllListeners('search');
             assert(false, 'No event fired');
@@ -122,6 +146,7 @@ describe('RETS Instance Methods',function(){
 
     it('Can logout of a RETS server',function(done){
 
+        loadFixture('logout');
         var _timeout = setTimeout(function(){
             rets.removeAllListeners('logout');
             assert(false, 'No event fired');
