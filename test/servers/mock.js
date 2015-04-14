@@ -146,6 +146,39 @@ describe('RETS Instance Methods',function(){
         }).raw.pipe(testStream('listings-raw.xml'));
     });
 
+    it('Can send a csv stream to a file',function(done){
+
+        loadFixture('search');
+        var timeout = setTimeout(function(){
+            rets.removeAllListeners('search');
+            assert(false, 'No event fired');
+            done();
+        },1000);
+
+        rets.addListener('search',function(err){
+            rets.removeAllListeners('search');
+            clearTimeout(timeout);
+
+            var results = getTestOutput('listings.csv');
+            xml(results, function(parserr, res){
+                assert(parserr === null);
+                done();
+            });
+
+        });
+
+        rets.search({
+            SearchType: 'Property',
+            Class: 'Residential',
+            Query: '(TimestampModified=2015-04-01+),(Status=|A)',
+            QueryType: 'DMQL2',
+            Limit: 3,
+            StandardNames: 1,
+            objectMode: false,
+            format: 'arrays',
+        }).raw.pipe(testStream('listings.csv'));
+    });
+
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
 
         var timeout = setTimeout(function(){
