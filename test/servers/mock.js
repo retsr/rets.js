@@ -129,7 +129,7 @@ describe('RETS Instance Methods',function(){
             QueryType: 'DMQL2',
             Limit: 3,
             StandardNames: 1
-        }).pipe(fs.createWriteStream('./test/tmp/listings.xml'));
+        }).raw.pipe(fs.createWriteStream('./test/tmp/listings.xml'));
     });
 
     it('Can get object from the server: NOT IMPLEMENTED',function(done){
