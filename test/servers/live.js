@@ -9,7 +9,7 @@ var RETSError = require('../../lib/error');
 
 nock.enableNetConnect();
 nockBack.fixtures = './test/servers/fixtures';
-nockBack.setMode('record');
+nockBack.setMode('wild');
 
 if(fs.existsSync('./test/servers/servers.json')) {
     var servers = require('./servers.json');
