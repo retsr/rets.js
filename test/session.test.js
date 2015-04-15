@@ -1,6 +1,6 @@
 var assert = require('assert');
 var url = require('url');
-var debug = require('debug')('rets.js:session.test.js');
+// var debug = require('debug')('rets.js:session.test.js');
 
 module.exports = describe('Session', function(){
 
