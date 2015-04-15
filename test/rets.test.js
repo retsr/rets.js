@@ -5,7 +5,7 @@ module.exports = describe('RETS', function(){
 
     var RETS = null;
     var instance = null;
-    var config = require('./mock');
+    var config = require('./servers/config.json')[0];
 
     before('Load RETS', function() {
         RETS = require('../lib/rets');
@@ -67,8 +67,8 @@ module.exports = describe('RETS', function(){
 
     it('Accepts an object as options.', function(){
         assert.equal(instance.config.url, config.url);
-        assert.equal(instance.config.userAgent, config.userAgent);
-        assert.equal(instance.config.userAgentPassword, config.userAgentPassword);
+        assert.equal(instance.config.ua.name, config.ua.name);
+        assert.equal(instance.config.ua.pass, config.ua.pass);
     });
 
     it('Has a login method.', function(){
