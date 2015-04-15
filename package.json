@@ -42,7 +42,6 @@
     "should": "^5.2.0"
   },
   "scripts": {
-    "prepublish": "npm run docs",
     "pretest": "jshint .",
     "test": "rm -rf test/tmp && ./node_modules/.bin/mocha test/index",
     "test-servers": "rm -rf test/tmp; mocha test/servers/live",
