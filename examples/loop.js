@@ -31,7 +31,7 @@ var fetch = function(options) {
     .on('error', function(err){
         console.trace(err);
     })
-    .on('data', function(chunk){
+    .on('data', function(/*chunk*/){
         beans++;
         // console.log(chunk);
         // do something
