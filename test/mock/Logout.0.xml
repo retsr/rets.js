@@ -1,6 +1,0 @@
-<RETS ReplyCode="0" ReplyText="Operation Successful" >
-    <RETS-RESPONSE>
-        ConnectTime=0 minutes
-        SignOffMessage=Logged out.
-    </RETS-RESPONSE>
-</RETS>
