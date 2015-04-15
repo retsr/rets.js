@@ -11,7 +11,7 @@ var RETSHost = 'rets.server.com:9160';
 
 var RETSLogin = 'https://user:pass@' + RETSHost + '/contact/rets/login';
 
-var fixtures = './test/mock/fixtures';
+var fixtures = './test/servers/fixtures';
 var outputs = './test/tmp';
 
 var nocks = [];
@@ -197,7 +197,7 @@ describe('Mocked RETS Server calls',function(){
             assert(res.count !== null);
             assert(res.records !== null);
         });
-        
+
         rets.search({
             SearchType: 'Property',
             Class: 'Residential',
@@ -220,7 +220,7 @@ describe('Mocked RETS Server calls',function(){
 
         loadFixture('search');
         rets.removeAllListeners('search');
-        
+
         rets.search({
             SearchType: 'Property',
             Class: 'Residential',
