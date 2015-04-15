@@ -4,7 +4,7 @@ test/servers/*
 !test/servers/index.js
 !test/servers/mock.js
 !test/servers/live.js
-!test/servers/servers.json.dist
+!test/servers/config.example.json
 
 # Logs
 logs

@@ -11,8 +11,8 @@ nock.enableNetConnect();
 nockBack.fixtures = './test/servers/fixtures';
 nockBack.setMode('wild');
 
-if(fs.existsSync('./test/servers/servers.json')) {
-    var servers = require('./servers.json');
+if(fs.existsSync('./test/servers/config.json')) {
+    var servers = require('./config.json');
     servers.forEach(function(item){
 
         var rets = new RETS({
