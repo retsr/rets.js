@@ -1,5 +1,5 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:rets.test.js');
+// var debug = require('debug')('rets.js:rets.test.js');
 
 module.exports = describe('RETS', function(){
 
