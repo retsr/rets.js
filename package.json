@@ -48,7 +48,7 @@
     "test-servers": "rm -rf test/tmp; mocha test/servers/live",
     "test-watch": "DEBUG=rets.js:* rm -rf test/tmp; mocha --watch --recursive --reporter spec test/index",
     "jsdoc": "jsdoc -X lib",
-    "docs": "rm -rf docs && jsdox --output docs lib"
+    "docs": "rm -rf docs && ./node_modules/.bin/jsdox --output docs lib"
   },
   "repository": {
     "type": "git",
