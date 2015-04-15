@@ -1,11 +1,11 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:test:servers:live');
+// var debug = require('debug')('rets.js:test:servers:live');
 var fs = require('fs');
 var nock = require('nock');
 var nockBack = nock.back;
 
 var RETS = require('../../');
-var RETSError = require('../../lib/error');
+// var RETSError = require('../../lib/error');
 
 nock.enableNetConnect();
 nockBack.fixtures = './test/servers/fixtures';

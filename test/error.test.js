@@ -1,5 +1,5 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:error.test.js');
+// var debug = require('debug')('rets.js:error.test.js');
 
 module.exports = describe('Error [RETSError]', function(){
 

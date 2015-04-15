@@ -1,11 +1,11 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:test:servers:mock');
-var nock = require('nock');
+// var debug = require('debug')('rets.js:test:servers:mock');
 var fs = require('fs');
+var nock = require('nock');
 var xml = require('xml2js').parseString;
 
 var RETS = require('../../');
-var RETSError = require('../../lib/error');
+// var RETSError = require('../../lib/error');
 
 var RETSHost = 'rets.server.com:9160';
 
@@ -13,8 +13,6 @@ var RETSLogin = 'https://user:pass@' + RETSHost + '/contact/rets/login';
 
 var fixtures = './test/servers/fixtures';
 var outputs = './test/tmp';
-
-var nocks = [];
 
 if (!fs.existsSync(outputs)) {
     fs.mkdirSync(outputs);
