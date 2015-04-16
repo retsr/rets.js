@@ -1,11 +1,12 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:session.test.js');
+var url = require('url');
+// var debug = require('debug')('rets.js:session.test.js');
 
 module.exports = describe('Session', function(){
 
     var Session = null;
     var instance = null;
-    var config = require('./mock');
+    var config = require('./servers/config.json')[0];
     var expectedDefaults = {
         url: null,
         ua: {
@@ -92,18 +93,18 @@ module.exports = describe('Session', function(){
     });
 
     it('Instance.url.auth set to expected value.', function(){
-        var auth = 'user:pass';
-        assert.equal(instance.url.auth, auth);
+        var parsed = url.parse(config.url);
+        assert.equal(instance.url.auth, parsed.auth);
     });
 
     it('Instance.url.host set to expected value.', function(){
-        var host = 'localhost:9160';
-        assert.equal(instance.url.host, host);
+        var parsed = url.parse(config.url);
+        assert.equal(instance.url.host, parsed.host);
     });
 
     it('Instance.url.path set to expected value.', function(){
-        var path = '/mock/Login';
-        assert.equal(instance.url.path, path);
+        var parsed = url.parse(config.url);
+        assert.equal(instance.url.path, parsed.path);
     });
 
     it('Has a .headers object.', function(){

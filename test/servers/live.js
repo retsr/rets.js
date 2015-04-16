@@ -1,18 +1,18 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:test:servers:live');
+// var debug = require('debug')('rets.js:test:servers:live');
 var fs = require('fs');
 var nock = require('nock');
 var nockBack = nock.back;
 
 var RETS = require('../../');
-var RETSError = require('../../lib/error');
+// var RETSError = require('../../lib/error');
 
 nock.enableNetConnect();
 nockBack.fixtures = './test/servers/fixtures';
 nockBack.setMode('wild');
 
-if(fs.existsSync('./test/servers/servers.json')) {
-    var servers = require('./servers.json');
+if(fs.existsSync('./test/servers/config.json')) {
+    var servers = require('./config.json');
     servers.forEach(function(item){
 
         var rets = new RETS({

@@ -1,0 +1,32 @@
+[
+    {
+        "url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
+        "ua": {
+            "name": "RETS-Connector1/2",
+            "pass": ""
+        },
+        "version": "RETS/1.7.2",
+        "search": {
+            "SearchType": "Property",
+            "Class": "ResidentialProperty",
+            "Query": "(ListingStatus=|A)",
+            "QueryType": "DMQL2",
+            "Limit": 3,
+            "StandardNames": 1
+        },
+        "metadata": {
+            "resources": {
+                "ID": "0"
+            },
+            "classes": {
+                "ID": "Property"
+            },
+            "fields": {
+                "ID": "Property:Residential"
+            },
+            "status": {
+                "ID": "Property:STATUS"
+            }
+        }
+    }
+]

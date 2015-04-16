@@ -1,20 +1,18 @@
 var assert = require('assert');
-var debug = require('debug')('rets.js:test:servers:mock');
-var nock = require('nock');
+// var debug = require('debug')('rets.js:test:servers:mock');
 var fs = require('fs');
+var nock = require('nock');
 var xml = require('xml2js').parseString;
 
 var RETS = require('../../');
-var RETSError = require('../../lib/error');
+// var RETSError = require('../../lib/error');
 
 var RETSHost = 'rets.server.com:9160';
 
 var RETSLogin = 'https://user:pass@' + RETSHost + '/contact/rets/login';
 
-var fixtures = './test/mock/fixtures';
+var fixtures = './test/servers/fixtures';
 var outputs = './test/tmp';
-
-var nocks = [];
 
 if (!fs.existsSync(outputs)) {
     fs.mkdirSync(outputs);
@@ -197,7 +195,7 @@ describe('Mocked RETS Server calls',function(){
             assert(res.count !== null);
             assert(res.records !== null);
         });
-        
+
         rets.search({
             SearchType: 'Property',
             Class: 'Residential',
@@ -220,7 +218,7 @@ describe('Mocked RETS Server calls',function(){
 
         loadFixture('search');
         rets.removeAllListeners('search');
-        
+
         rets.search({
             SearchType: 'Property',
             Class: 'Residential',
