@@ -42,7 +42,7 @@
     "should": "^5.2.0"
   },
   "scripts": {
-    "postinstall": "cp test/servers/config.example.json test/servers/config.json",
+    "postinstall": "if [ ! -f test/servers/config.json ]; then cp -n test/servers/config.example.json test/servers/config.json; fi",
     "pretest": "jshint .",
     "test": "rm -rf test/tmp && mocha test/index",
     "test-servers": "rm -rf test/tmp; mocha test/servers/live",
