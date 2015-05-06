@@ -54,4 +54,11 @@ module.exports = describe('Error [RETSError]', function(){
         assert(instance.message === instance.codes[code][0]);
     });
 
+    it('Handles aggregate errors correctly. [' + code + ']', function(){
+        instance = new RETSError(code, "Fake aggregate message.");
+        assert(instance.code === code);
+        var aggregateMessage = instance.codes[instance.code][0] + instance.wrapper.start + instance.ReplyText + instance.wrapper.end;
+        assert(instance.message === aggregateMessage);
+    });
+
 });
