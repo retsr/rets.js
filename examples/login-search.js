@@ -1,6 +1,8 @@
+// DEBUG=rets.js:login-search* USER=[user] PASSWORD=[password] node login-search.js
+
 var util       = require('util');
 var RETS       = require('../');
-var debug      = require('debug')('rets.js:loop');
+var debug      = require('debug')('rets.js:login-search');
 var Handlebars = require('handlebars');
 var user       = process.env.USER;
 var password   = process.env.PASSWORD;
