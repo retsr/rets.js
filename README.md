@@ -31,6 +31,10 @@ and add your own server path and credentials.
 
 You can find a number of examples in the [examples](examples) directory
 
+## Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md) for details on submitting patches and the contribution workflow.
+
 ## License
 
 See [LICENSE](LICENSE)
