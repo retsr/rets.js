@@ -13,12 +13,6 @@ Rets.js is an effort to bring a properly functioning and performant libRETS impl
 This library is _not_ a libRETS wrapper, but seeks to provide a similar API interface while offering additional feature support
 that Node.js developers have come to rely on.
 
-### Node.js features
-
-    * Event driven
-    * Non-blocking
-    * Stream support
-
 ## Install
 
     npm install --save rets.js
