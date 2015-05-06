@@ -1,6 +1,11 @@
 # rets.js [![Travis](https://img.shields.io/travis/retsr/rets.js.svg)](https://travis-ci.org/retsr/rets.js) [![Coverage Status](https://coveralls.io/repos/retsr/rets.js/badge.svg?branch=master)](https://coveralls.io/r/retsr/rets.js?branch=master)
 
-Simplified RETS Node Client
+> Simplified RETS Node Client
+
+This package aims to simplify interacting with Real Estate Transaction Standard (RETS) compliant servers using Node.js and some
+features we've come to expect from Node libraries like events and streaming while trying to rely as little as possible on none-js
+dependencies. A secondary but still important goal is to keep the code as simple to read as possible to help developers understand
+the RETS Specification and the library itself.
 
 ## Motivation
 
