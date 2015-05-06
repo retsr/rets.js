@@ -17,9 +17,9 @@ var rets = new RETS({
 });
 
 rets.login().on('setting',function(key, value){
-    // debug("Setting: %o => %o", key, value);
+    debug("Setting: %o => %o", key, value);
 }).on('capability',function(key, value){
-    // debug("Capability: %o => %o", key, value);
+    debug("Capability: %o => %o", key, value);
 });
 
 rets.on('login',function(err){
