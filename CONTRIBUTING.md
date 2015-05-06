@@ -8,7 +8,7 @@ rets.js is MIT licensed and accepts contributions via Github pull requests.
 
 ## Contribution flow
 
-- Create a topic branch from where you want to base your work.
+- Create a topic branch from where you want to base your work (usually master).
 - Make commits.
 - Make sure your commit messages are in the proper format (see below).
 - Push your changes to a topic branch in your fork of the repository.
@@ -18,11 +18,11 @@ rets.js is MIT licensed and accepts contributions via Github pull requests.
 
 We follow a rough convention for commit messages that is designed to answer two
 questions: what changed and why. The subject line should feature the what and
-the body of the commit should describe the why. This is inspired by the stile used
-by some CoreOS project.
+the body of the commit should describe the why. This format is inspired by the
+styles used by some CoreOS projects.
 
 ```
-scripts: add the test-cluster command
+add the test-cluster command
 
 this uses tmux to setup a test cluster that you can easily kill and
 start for debugging.
@@ -30,7 +30,7 @@ start for debugging.
 
 The format can be described more formally as follows:
 ```
-<subsystem>: <what changed>
+<what changed>
 <BLANK LINE>
 <why this change was made>
 ```
