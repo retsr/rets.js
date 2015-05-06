@@ -3,9 +3,11 @@
 > Simplified RETS Node Client
 
 rets.js aims to simplify interacting with Real Estate Transaction Standard
-1.8 (RETS 1.8) compliant servers using Node.js. It is an effort to bring a
-properly functioning and performant libRETS implementation to the Node.js
-community. This library is _not_ a libRETS wrapper, but seeks to provide a
+compliant servers using Node.js. Specifically RETS Version 1.8.
+It is an effort to bring a properly functioning and performant libRETS
+implementation to the Node.js community.
+
+This library is _not_ a libRETS wrapper, but seeks to provide a
 similar API interface while offering additional feature support that Node.js
 developers have come to rely on like events and streaming.
 
