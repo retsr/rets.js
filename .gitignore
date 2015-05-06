@@ -7,3 +7,4 @@ test/servers/*
 !test/servers/config.example.json
 node_modules
 .DS_Store
+.metadata.json
