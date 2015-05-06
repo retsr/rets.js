@@ -121,6 +121,7 @@ describe('Mocked RETS Server calls',function(){
             Class: 'Residential',
             Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
+            Offset:1,
             Limit: 3,
             StandardNames: 1
         })
@@ -151,6 +152,7 @@ describe('Mocked RETS Server calls',function(){
             Class: 'Residential',
             Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
+            Offset:1,
             Limit: 3,
             StandardNames: 1
         })
@@ -175,6 +177,7 @@ describe('Mocked RETS Server calls',function(){
             Class: 'Residential',
             Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
+            Offset:1,
             Limit: 3,
             StandardNames: 1,
             objectMode: false,
@@ -201,6 +204,7 @@ describe('Mocked RETS Server calls',function(){
             Class: 'Residential',
             Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
+            Offset:1,
             Limit: 3,
             StandardNames: 1,
             objectMode: true,
@@ -224,6 +228,7 @@ describe('Mocked RETS Server calls',function(){
             Class: 'Residential',
             Query: '(TimestampModified=2015-04-01+),(Status=|A)',
             QueryType: 'DMQL2',
+            Offset: 1,
             Limit: 3,
             StandardNames: 1,
             objectMode: true,
