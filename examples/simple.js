@@ -1,6 +1,6 @@
 // DEBUG=rets.js:simple* USER=**** PASSWORD=**** node examples/simple.js
 
-var util       = require('util');
+// var util       = require('util');
 var Table = require('cli-table');
 var RETS       = require('../');
 var debug      = require('debug')('rets.js:simple');
@@ -54,7 +54,7 @@ rets.on('login',function(err){
             head: ['resourceid', 'standardname', 'visiblename', 'description', 'keyfield', 'classcount']
         });
         resources.forEach(function(resource){
-            if (parseInt(resource.classcount) == 1) {
+            if (parseInt(resource.classcount) === 1) {
                 classes.push(resource['metadata-class'].class);
             } else {
                 resource['metadata-class'].class.forEach(function(cls){
