@@ -68,7 +68,7 @@ describe('Mocked RETS Server calls',function(){
         assert(rets.session.capabilities.Search && rets.session.capabilities.GetMetadata);
     });
 
-    it('Can get metadata as a native object',function(done){
+    it.skip('Can get metadata as a native object',function(done){
 
         loadFixture('metadata-resource');
         rets.addListener('metadata',function(err, result){
@@ -83,7 +83,7 @@ describe('Mocked RETS Server calls',function(){
         });
     });
 
-    it('Can stream metadata to an xml file',function(done){
+    it.skip('Can stream metadata to an xml file',function(done){
 
         loadFixture('metadata-resource');
         rets.addListener('metadata',function(err, result){
