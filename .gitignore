@@ -8,3 +8,4 @@ test/servers/*
 node_modules
 .DS_Store
 .metadata.json
+npm-debug.log
