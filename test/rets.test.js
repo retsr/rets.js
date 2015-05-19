@@ -31,7 +31,7 @@ module.exports = describe('RETS', function(){
         assert.equal(typeof RETS, 'function');
     });
 
-    it('Instantiates correctly.', function(){
+    it('Accepts a URL string with embeded auth credentials.', function(){
         assert(instance instanceof RETS);
     });
 
