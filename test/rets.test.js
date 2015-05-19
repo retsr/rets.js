@@ -16,7 +16,7 @@ module.exports = describe('RETS', function(){
     });
 
     beforeEach('Create new instance before each test.', function(){
-        instance = RETS(config);
+        instance = RETS("http://user:pass@rets.server.com:9160/Login.asmx/Login");
     });
 
     afterEach('Clear instance after each test.', function(){
