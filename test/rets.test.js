@@ -8,7 +8,7 @@ module.exports = describe('RETS', function(){
     var config = require('./servers/config.json')[0];
 
     before('Load RETS', function() {
-        RETS = require('../lib/rets');
+        RETS = require('../');
     });
 
     after('Clanup after all tests.', function(){
