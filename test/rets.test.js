@@ -35,11 +35,10 @@ module.exports = describe('RETS', function(){
         assert(instance instanceof RETS);
     });
 
-    it('Throws an error if options is undefined.', function(){
+    it('Throws if instantiation attempted without user name (URL-embedded or as option).', function(){
         assert.throws(function(){
-            new RETS();
+            new RETS("http://rets.server.com:9160/Login.asmx/Login");
         }, Error);
-    });
 
     it('Throws an error if options.url is undefined.', function(){
         assert.throws(function(){
