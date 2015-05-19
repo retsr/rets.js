@@ -39,35 +39,56 @@ module.exports = describe('RETS', function(){
         assert.throws(function(){
             new RETS("http://rets.server.com:9160/Login.asmx/Login");
         }, Error);
-
-    it('Throws an error if options.url is undefined.', function(){
         assert.throws(function(){
-            new RETS({});
+            new RETS("http://rets.server.com:9160/Login.asmx/Login", {
+                pass: 'opts_pass'
+            });
         }, Error);
     });
 
-    it('Throws an error if options.url is not a string or object.', function(){
+    it('Accepts a URL string and an options object.', function(){
+        var instance = RETS("http://user:pass@rets.server.com:9160/Login.asmx/Login", {
+            user: 'opts_user',
+            pass: 'opts_pass'
+        });
+        assert(instance instanceof RETS);
+    });
+
+    it('Accepts an object as the only parameter.', function(){
+        var instance = RETS({
+            url: "http://user:pass@rets.server.com:9160/Login.asmx/Login"
+        });
+        assert(instance instanceof RETS);
+    });
+
+    it('options.user overrides URL-embedded user.', function(){
+        var instance = RETS("http://user:pass@rets.server.com:9160/Login.asmx/Login", {
+            user: 'opts_user'
+        });
+        assert.equal(instance.config.user, 'opts_user');
+    });
+
+    it('options.pass overrides URL-embedded password.', function(){
+        var instance = RETS("http://user:pass@rets.server.com:9160/Login.asmx/Login", {
+            pass: 'opts_pass'
+        });
+        assert.equal(instance.config.pass, 'opts_pass');
+    });
+
+    it('Instantiates correctly.', function(){
+        assert(instance instanceof RETS);
+    });
+
+    it('Throws an error if no parameters are passed when instantiating.', function(){
         assert.throws(function(){
-            new RETS({url:true});
+            new RETS();
         }, Error);
     });
 
-    it('Throws an error if options.url is not a valid url.', function(){
+    it('Throws an error if URL is not a valid.', function(){
         assert.throws(function(){
-            new RETS({url:"some invalid url"});
+            new RETS("some invalid url");
         }, Error);
-    });
-
-    it('Throws an error if options.url does not have credentials.', function(){
-        assert.throws(function(){
-            new RETS({url:"http://localhost:9160/mock/Login"});
-        }, Error);
-    });
-
-    it('Accepts an object as options.', function(){
-        assert.equal(instance.config.url, config.url);
-        assert.equal(instance.config.ua.name, config.ua.name);
-        assert.equal(instance.config.ua.pass, config.ua.pass);
     });
 
     it('Has a login method.', function(){
