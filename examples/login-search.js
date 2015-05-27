@@ -1,5 +1,6 @@
 // USER=[user] PASSWORD=[password] node login-search.js
 
+var util       = require('util');
 var RETS       = require('../');
 var log = require('../lib/logger');
 var Handlebars = require('handlebars');
