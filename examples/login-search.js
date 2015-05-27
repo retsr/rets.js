@@ -1,8 +1,7 @@
-// DEBUG=rets.js:login-search* USER=[user] PASSWORD=[password] node login-search.js
+// USER=[user] PASSWORD=[password] node login-search.js
 
-var util       = require('util');
 var RETS       = require('../');
-var debug      = require('debug')('rets.js:login-search');
+var log = require('../lib/logger');
 var Handlebars = require('handlebars');
 var user       = process.env.USER;
 var password   = process.env.PASSWORD;
@@ -19,20 +18,18 @@ var rets = new RETS({
 });
 
 rets.login().on('setting',function(key, value){
-    debug("Setting: %o => %o", key, value);
+    log.info({setting: [key, value]}, "Setting event.");
 }).on('capability',function(key, value){
-    debug("Capability: %o => %o", key, value);
+    log.info({key: key, value: value}, "Capability event.");
 });
 
 rets.on('login',function(err){
-    if (err) {console.trace(err);}
+    if (err) {log.trace(err);}
 
-    debug("Settings: ", "\n" + util.inspect(rets.session.settings, { colors: true, depth: 3 }) + "\n");
-    debug("Capabilities: ", "\n" + util.inspect(rets.session.capabilities, { colors: true, depth: 3 }) + "\n");
+    log.info({settings: rets.session.settings}, "Settings:");
+    log.info({capabilities: rets.session.capabilities}, "Capabilities:");
 
     var template = Handlebars.compile("[{{ListingID}}] {{StreetNumber}} {{StreetName}}, {{City}}, {{State}}");
-
-    console.time('Search');
 
     rets.search({
         SearchType: 'Property',
@@ -43,16 +40,14 @@ rets.on('login',function(err){
         objectMode: true,
         format: 'objects'
     }).on('error', function(err){
-        debug(err);
+        log.trace(err);
     }).on('data', function(property){
-        debug(template(property));
-        // debug("Property: ", "\n" + util.inspect(property, { colors: true, depth: 3 }) + "\n");
+        log.info({property: template(property)}, "Formatted property:");
     });
 
 });
 
 rets.on('search', function(err, res){
-    if (err) {console.trace(err);}
-    debug("Results: %o of %o", res.records, res.count);
-    console.timeEnd('Search');
+    if (err) {log.trace(err);}
+    log.info({records: res.records, count: res.count}, "Results:");
 });
