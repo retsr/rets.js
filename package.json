@@ -21,6 +21,7 @@
   "main": "index.js",
   "dependencies": {
     "MD5": "^1.2.1",
+    "bunyan": "^1.3.5",
     "cli-table": "^0.3.1",
     "event-stream": "^3.3.0",
     "extend": "^2.0.1",
@@ -49,7 +50,7 @@
     "pretest": "if [ ! -f test/servers/config.json ]; then cp -n test/servers/config.example.json test/servers/config.json; fi; jshint .",
     "test": "rm -rf test/tmp && mocha test/index",
     "test-servers": "rm -rf test/tmp; mocha test/servers/live",
-    "test-watch": "DEBUG=rets.js:* rm -rf test/tmp; mocha --watch --recursive --reporter spec test/index",
+    "test-watch": "rm -rf test/tmp; mocha --watch --recursive --reporter spec test/index",
     "docs": "rm -rf docs && jsdox --output docs lib"
   },
   "repository": {

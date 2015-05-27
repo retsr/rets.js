@@ -1,5 +1,6 @@
 var util = require('util');
 var RETS = require('../');
+var log = require('../lib/logger');
 
 var rets = new RETS({
     "url": "http://user:pass@rets.server.com:9160/Login.asmx/Login",
@@ -29,43 +30,42 @@ var fetch = function(options) {
 
     rets.search(_query)
     .on('error', function(err){
-        console.trace(err);
+        log.error(err);
     })
     .on('data', function(/*chunk*/){
         beans++;
-        // console.log(chunk);
-        // do something
+        // log.info({chunk: chunk});
     });
 };
 
 rets.on('login',function(err){
     if (err) {
-        console.trace(err);
+        log.error(err);
         return;
     }
-    console.log('Connected');
+    log.info('Connected');
     fetch({});
 })
-.on('search', function(error, res){
-    if (error) {
-        console.trace(error);
+.on('search', function(err, res){
+    if (err) {
+        log.error(err);
         return;
     }
 
-    console.log('Received %s records; %s of %s', res.records, beans, res.count);
+    log.info({records: res.records, beans: beans, count: res.count}, 'Records:');
     if (expect === 0 && loops === 0) {
         expect = res.count;
         loops = (expect - res.records) / 1000;
 
         for (var i=0; i<loops; i++) {
             var offset = ((i+1) * 1000);
-            console.log('Queue request for offset %s', offset);
+            log.info({offset:offset}, 'Queue request for offset:');
             fetch({ Offset: offset });
         }
     }
 
     if (beans >= res.count) {
-        console.log('Completed looping records');
+        log.info('Completed looping records');
         rets.logout();
     }
 })
