@@ -48,10 +48,9 @@
     "should": "^5.2.0"
   },
   "scripts": {
-    "pretest": "if [ ! -f test/servers/config.json ]; then cp -n test/servers/config.example.json test/servers/config.json; fi; jshint .",
-    "test": "rm -rf test/tmp && mocha test/index",
-    "test-servers": "rm -rf test/tmp; mocha test/servers/live",
-    "test-watch": "rm -rf test/tmp; mocha --watch --recursive --reporter spec test/index",
+    "test": "mocha test/index",
+    "test-servers": "mocha test/servers/live",
+    "test-watch": "mocha --watch --recursive --reporter spec test/index",
     "docs": "rm -rf docs && jsdox --output docs lib"
   },
   "repository": {
